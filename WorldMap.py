@@ -1,21 +1,47 @@
 # Matthew Severance, 4/18/2016
 
 import sys
+from Sprite import Sprite
 import pygame
 from pygame.locals import *
+from DeerGroup import DeerGroup
+from WolfGroup import WolfGroup
+
+
+deer_group = DeerGroup()
+wolf_group = WolfGroup()
+screen_size = 1280, 720
 
 
 # displays the map, initializes terrain and buttons
 def display_map():
-    size = 1280, 720    # just a random size
-    screen = pygame.display.set_mode(size)  # creates the screen
+       # just a random size
+    screen = pygame.display.set_mode(screen_size)  # creates the screen
     pygame.display.set_caption("Environment Simulator")     # write the caption
 
     # sets the terrain to an image
     terrain = pygame.image.load("Resources/randomterrain.jpg")
-    terrain_rect = Rect((0, 0), size)
+    terrain_rect = Rect((0, 0), screen_size)
 
-    buttons = []    # the list of buttons, its a list of tuples [(image, image_rectangle)]
+    # blit the terrain image to the screen
+    screen.blit(terrain, terrain_rect)
+
+    buttons = make_buttons(screen)   # the list of buttons, its a list of tuples [(image, image_rectangle)]
+
+    # loop to listen on the mouse, delayed cuz otherwise stuff flickers
+    while True:
+        mouse_monitor(screen, buttons)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+        wolf_group.update()
+        deer_group.update()
+        pygame.time.delay(100)
+
+
+# makes all the buttons
+def make_buttons(screen):
+    buttons = []
 
     # make a deer button, Rect creates the rectangle to draw the button in
     deer_button = pygame.image.load("Resources/buttons/deernormal.png")
@@ -32,18 +58,11 @@ def display_map():
     # blit- puts stuff on the screen
     # blit terrain and buttons
     # flip just refreshes screen to display blits since last flip
-    screen.blit(terrain, terrain_rect)
     for button in buttons:
         screen.blit(button[0], button[1])
     pygame.display.flip()
 
-    # loop to listen on the mouse, delayed cuz otherwise stuff flickers
-    while True:
-        mouse_monitor(screen, buttons)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-        pygame.time.delay(100)
+    return buttons
 
 
 # monitors mouse activity, mostly used for selecting buttons and placing animals now
@@ -63,7 +82,7 @@ def mouse_monitor(screen, buttons):
                 # waits for click to select deer button
                 for event in pygame.event.get():
                     if event.type == MOUSEBUTTONDOWN:
-                        place_image(screen, mouse, "Resources/sprites/deer.png")
+                        place_image(screen, mouse, "Resources/sprites/deer.png", "deer")
             # button[1] = wolf
             elif buttons.index(button) == 1:
                 # change to highlighted wolf button
@@ -73,7 +92,7 @@ def mouse_monitor(screen, buttons):
                 # waits for click to select wolf button
                 for event in pygame.event.get():
                     if event.type == MOUSEBUTTONDOWN:
-                        place_image(screen, mouse, "Resources/sprites/wolf.png")
+                        place_image(screen, mouse, "Resources/sprites/wolf.png", "wolf")
             # update position for while loop
             mouse_pos = mouse.get_pos()
     # return buttons to normal
@@ -83,13 +102,21 @@ def mouse_monitor(screen, buttons):
 
 
 # puts an image of an animal on screen at a mouse click
-def place_image(screen, mouse, image_name):
+def place_image(screen, mouse, image_name, animal_name):
     image = pygame.image.load(image_name)
-    while True: # waits forever, until user places animal
+    while True:  # waits forever, until user places animal
         for event in pygame.event.get():
             if event.type == MOUSEBUTTONDOWN:
-                image_rect = Rect((mouse.get_pos()), (40, 39))
-                screen.blit(image, image_rect)
-                pygame.display.flip()
+                image_rect = Rect((mouse.get_pos()), (24, 24))
+                new_sprite = Sprite(image, image_rect, animal_name, screen)
+                new_sprite.blit()
+                add_to_correct_group(new_sprite)
                 return
+
+
+def add_to_correct_group(sprite):
+    if sprite.type == "wolf":
+        wolf_group.add_internal(sprite)
+    elif sprite.type == "deer":
+        deer_group.add_internal(sprite)
 
