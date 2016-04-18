@@ -1,3 +1,5 @@
+# Matthew Severance, 4/18/2016
+
 from Sprite import Sprite
 
 class DeerSprite(Sprite):

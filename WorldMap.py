@@ -118,7 +118,7 @@ def place_image(screen, mouse, image_name, animal_name):
 
 def add_to_correct_group(sprite):
     if sprite.type == "wolf":
-        wolf_group.add_internal(WolfSprite(sprite.image, sprite.image_rect, sprite.type, sprite.screen))
+        wolf_group.add_internal(WolfSprite(sprite.image, sprite.rect, sprite.type, sprite.screen))
     elif sprite.type == "deer":
-        deer_group.add_internal(DeerSprite(sprite.image, sprite.image_rect, sprite.type, sprite.screen))
+        deer_group.add_internal(DeerSprite(sprite.image, sprite.rect, sprite.type, sprite.screen))
 
