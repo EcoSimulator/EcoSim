@@ -20,10 +20,10 @@ class WolfSprite(Sprite):
             if pygame.sprite.collide_circle(self, deer):
                 direction_x = deer.rect.centerx
                 direction_y = deer.rect.centery
-                magnitude = 1  # change to incorporate speed
+                magnitude = 10  # change to incorporate speed
                 dirtyrect = Utils.clean_screen.subsurface(self.rect).copy()
                 self.screen.blit(dirtyrect, self.rect)
-                self.rect.move_ip(10 * math.cos(direction_x), 10 * math.sin(direction_y))
+                self.rect.move_ip(magnitude * math.cos(direction_x), magnitude * math.sin(direction_y))
                 self.blit()
                 pygame.display.flip()
                 if pygame.sprite.collide_rect(self, deer):

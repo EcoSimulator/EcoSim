@@ -1,4 +1,4 @@
-# Matthew Severance, 4/18/2016
+# Matthew Severance, 4/18/5016
 
 import sys
 from Sprite import Sprite
@@ -8,6 +8,7 @@ from DeerGroup import DeerGroup
 from WolfGroup import WolfGroup
 from WolfSprite import WolfSprite
 from DeerSprite import DeerSprite
+import random
 
 
 deer_group = DeerGroup()
@@ -31,6 +32,7 @@ def display_map():
     buttons = make_buttons(screen)   # the list of buttons, its a list of tuples [(image, image_rectangle)]
 
     # loop to listen on the mouse, delayed cuz otherwise stuff flickers
+    count = 0
     while True:
         mouse_monitor(screen, buttons)
         for event in pygame.event.get():
@@ -38,7 +40,11 @@ def display_map():
                 sys.exit()
         wolf_group.update()
         deer_group.update()
+        reproduce(screen, count)
         pygame.time.delay(100)
+        count += 1
+        if count > 1000:
+            count = 0
 
 
 # makes all the buttons
@@ -105,15 +111,31 @@ def mouse_monitor(screen, buttons):
 
 # puts an image of an animal on screen at a mouse click
 def place_image(screen, mouse, image_name, animal_name):
-    image = pygame.image.load(image_name)
     while True:  # waits forever, until user places animal
         for event in pygame.event.get():
             if event.type == MOUSEBUTTONDOWN:
-                image_rect = Rect((mouse.get_pos()), (24, 24))
-                new_sprite = Sprite(image, image_rect, animal_name, screen)
-                new_sprite.blit()
-                add_to_correct_group(new_sprite)
+                location = buffer_mouse_pos(screen, list(mouse.get_pos()))
+                spawn_sprite(screen, location, image_name, animal_name)
                 return
+
+
+def spawn_sprite(screen, location, image_name, animal_name):
+    image = pygame.image.load(image_name)
+    image_rect = Rect(location, (24, 24))
+    new_sprite = Sprite(image, image_rect, animal_name, screen)
+    new_sprite.blit()
+    add_to_correct_group(new_sprite)
+
+
+def reproduce(screen, count):
+    buffer = 50     # 50 pixel buffer
+    if count % 100 == 0:
+        rand_location = (random.randrange(buffer, screen_size[0] - buffer),
+                         random.randrange(buffer, screen_size[1] - buffer))
+        spawn_sprite(screen, rand_location, "Resources/sprites/wolf.png", "wolf")
+        rand_location = (random.randrange(buffer, screen_size[0] - buffer),
+                         random.randrange(buffer, screen_size[1] - buffer))
+        spawn_sprite(screen, rand_location, "Resources/sprites/deer.png", "deer")
 
 
 def add_to_correct_group(sprite):
@@ -122,3 +144,23 @@ def add_to_correct_group(sprite):
     elif sprite.type == "deer":
         deer_group.add_internal(DeerSprite(sprite.image, sprite.rect, sprite.type, sprite.screen))
 
+
+def buffer_mouse_pos(screen, mouse_pos):
+    buffer = 50     # 5= pixel buffer
+    if mouse_pos[0] <= buffer:  # left
+        mouse_pos[0] += buffer
+        if mouse_pos[1] <= buffer:  # left top
+            mouse_pos[1] += buffer
+        elif mouse_pos[1] >= screen.get_bounding_rect().bottom - 1.5 * buffer:    # bottom left
+            mouse_pos[1] -= 2 * buffer
+    elif mouse_pos[0] >= screen.get_bounding_rect().right - 1.5 * buffer:     # right
+        mouse_pos[0] -= 2 * buffer
+        if mouse_pos[1] <= buffer:  # right top
+            mouse_pos[1] += buffer
+        elif mouse_pos[1] >= screen.get_bounding_rect().bottom - 1.5 * buffer:  # bottom right
+            mouse_pos[1] -= 2 * buffer
+    elif mouse_pos[1] <= buffer:  # top
+            mouse_pos[1] += buffer
+    elif mouse_pos[1] >= screen.get_bounding_rect().bottom - 1.5 * buffer:  # bottom
+        mouse_pos[1] -= 2 * buffer
+    return mouse_pos
