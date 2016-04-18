@@ -6,6 +6,8 @@ import pygame
 from pygame.locals import *
 from DeerGroup import DeerGroup
 from WolfGroup import WolfGroup
+from WolfSprite import WolfSprite
+from DeerSprite import DeerSprite
 
 
 deer_group = DeerGroup()
@@ -116,7 +118,7 @@ def place_image(screen, mouse, image_name, animal_name):
 
 def add_to_correct_group(sprite):
     if sprite.type == "wolf":
-        wolf_group.add_internal(sprite)
+        wolf_group.add_internal(WolfSprite(sprite.image, sprite.image_rect, sprite.type, sprite.screen))
     elif sprite.type == "deer":
-        deer_group.add_internal(sprite)
+        deer_group.add_internal(DeerSprite(sprite.image, sprite.image_rect, sprite.type, sprite.screen))
 
