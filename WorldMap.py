@@ -136,7 +136,7 @@ def create_sprite(screen, location, image_name, animal_name):
 
 def reproduce(screen, count):
     buffer = 50     # 50 pixel buffer
-    if count % 1 == 0:
+    if count % 100 == 0:
         rand_location = (random.randrange(buffer, screen_size[0] - buffer),
                          random.randrange(buffer, screen_size[1] - buffer))
         new_sprite = create_sprite(screen, rand_location, "Resources/sprites/wolf.png", "wolf")
