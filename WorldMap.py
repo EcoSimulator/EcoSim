@@ -127,14 +127,34 @@ def spawn_sprite(screen, location, image_name, animal_name):
     add_to_correct_group(new_sprite)
 
 
+def create_sprite(screen, location, image_name, animal_name):
+    image = pygame.image.load(image_name)
+    image_rect = Rect(location, (24, 24))
+    new_sprite = Sprite(image, image_rect, animal_name, screen)
+    return new_sprite
+
+
 def reproduce(screen, count):
     buffer = 50     # 50 pixel buffer
-    if count % 100 == 0:
+    if count % 1 == 0:
         rand_location = (random.randrange(buffer, screen_size[0] - buffer),
                          random.randrange(buffer, screen_size[1] - buffer))
+        new_sprite = create_sprite(screen, rand_location, "Resources/sprites/wolf.png", "wolf")
+        while not Sprite.move_is_within_surface(new_sprite, random.randrange(buffer, screen_size[0] - buffer), random.randrange(buffer, screen_size[1] - buffer)):
+            rand_location = (random.randrange(buffer, screen_size[0] - buffer),
+                             random.randrange(buffer, screen_size[1] - buffer))
+            new_sprite = create_sprite(screen, rand_location, "Resources/sprites/wolf.png", "wolf")
+        new_sprite.kill()
         spawn_sprite(screen, rand_location, "Resources/sprites/wolf.png", "wolf")
+
         rand_location = (random.randrange(buffer, screen_size[0] - buffer),
                          random.randrange(buffer, screen_size[1] - buffer))
+        new_sprite = create_sprite(screen, rand_location, "Resources/sprites/deer.png", "deer")
+        while not Sprite.move_is_within_surface(new_sprite, random.randrange(buffer, screen_size[0] - buffer), random.randrange(buffer, screen_size[1] - buffer)):
+            rand_location = (random.randrange(buffer, screen_size[0] - buffer),
+                             random.randrange(buffer, screen_size[1] - buffer))
+            new_sprite = create_sprite(screen, rand_location, "Resources/sprites/deer.png", "deer")
+        new_sprite.kill()
         spawn_sprite(screen, rand_location, "Resources/sprites/deer.png", "deer")
 
 
