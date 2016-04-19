@@ -6,15 +6,16 @@ import random
 import math
 import Utils
 
+
 class Sprite(pygame.sprite.DirtySprite):
 
     def __init__(self, image, rect, type, screen):
         pygame.sprite.Sprite.__init__(self)
-
         self.image = image
         self.rect = rect
         self.type = type
         self.screen = screen
+        self.speed = 10
 
     def add_internal(self, group):
         pygame.sprite.Sprite.add_internal(self, group)
@@ -27,18 +28,18 @@ class Sprite(pygame.sprite.DirtySprite):
 
     def update(self):
         direction = math.radians(random.randint(0, 360))
-        magnitude = 10
-        x_offset = magnitude * math.cos(direction)
-        y_offset = magnitude * math.sin(direction)
+        x_offset = self.speed * math.cos(direction)
+        y_offset = self.speed * math.sin(direction)
         while not self.move_is_within_surface(x_offset, y_offset):
             direction = self.make_good_move(x_offset, y_offset)
-            x_offset = magnitude * math.cos(direction)
-            y_offset = magnitude * math.sin(direction)
+            x_offset = self.speed * math.cos(direction)
+            y_offset = self.speed * math.sin(direction)
         dirty_rect = Utils.clean_screen.subsurface(self.rect).copy()
         self.screen.blit(dirty_rect, self.rect)
         self.rect.move_ip(x_offset, y_offset)
         self.blit()
         pygame.display.flip()
+        pygame.time.delay(100)
         # rect.clamp moves one rectangle inside another
         # good for wolf catching deer probably
 
