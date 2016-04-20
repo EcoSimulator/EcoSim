@@ -5,6 +5,7 @@ import pygame
 import random
 import math
 import Utils
+import WorldMap
 
 
 class Sprite(pygame.sprite.DirtySprite):
@@ -16,6 +17,7 @@ class Sprite(pygame.sprite.DirtySprite):
         self.type = type
         self.screen = Utils.screen
         self.speed = 10
+        self.health = 100
 
     def add_internal(self, group):
         pygame.sprite.Sprite.add_internal(self, group)
@@ -30,15 +32,29 @@ class Sprite(pygame.sprite.DirtySprite):
         direction = math.radians(random.randint(0, 360))
         x_offset = self.speed * math.cos(direction)
         y_offset = self.speed * math.sin(direction)
+        # part of objects, don't work yet
+        # x_y_offsets = self.move_hits_object(x_offset, y_offset)
+        # if not x_offset == x_y_offsets[0]:
+        #     print "we hit object x"
+        #     x_offset = x_y_offsets[0]
+        # if not y_offset == x_y_offsets[1]:
+        #     print "we hit object y"
+        #     y_offset = x_y_offsets[1]
         while not self.move_is_within_surface(x_offset, y_offset):
             direction = self.make_good_move(x_offset, y_offset)
             x_offset = self.speed * math.cos(direction)
             y_offset = self.speed * math.sin(direction)
+
         dirty_rect = Utils.clean_screen.subsurface(self.rect).copy()
         self.screen.blit(dirty_rect, self.rect)
         self.rect.move_ip(x_offset, y_offset)
         self.blit()
         pygame.display.flip()
+
+        self.health -= 1
+        if self.health <= 0:
+            self.erase()
+
         pygame.time.delay(100)
         # rect.clamp moves one rectangle inside another
         # good for wolf catching deer probably
@@ -76,3 +92,37 @@ class Sprite(pygame.sprite.DirtySprite):
         if self.rect.bottom + y_offset >= self.screen.get_bounding_rect().bottom - buffer:
             return False
         return True
+
+    def erase(self):
+        if self.type == "wolf":
+            WorldMap.wolf_group.remove_internal(self)
+        elif self.type == "deer":
+            WorldMap.deer_group.remove_internal(self)
+        dirty_rect = Utils.clean_screen.subsurface(self.rect).copy()
+        self.screen.blit(dirty_rect, self.rect)
+        pygame.display.flip()
+
+    # # TODO finish up so sprites can't walk into object
+    # def move_hits_object(self, x_offset, y_offset):
+    #     for obstacle in WorldMap.obstacle_group:
+    #         if self.rect.left + x_offset < obstacle.rect.right \
+    #                 and self.rect.bottom + y_offset >= obstacle.rect.top \
+    #                 or self.rect.top + y_offset <= obstacle.rect.bottom:
+    #             x_offset = -x_offset
+    #
+    #         if self.rect.right + x_offset > obstacle.rect.left\
+    #                 and self.rect.bottom + y_offset >= obstacle.rect.top \
+    #                 or self.rect.top + y_offset <= obstacle.rect.bottom:
+    #             x_offset = -x_offset
+    #
+    #         if self.rect.bottom + y_offset > obstacle.rect.top\
+    #                 and self.rect.left + x_offset <= obstacle.rect.right\
+    #                 or self.rect.right + x_offset >= obstacle.rect.left:
+    #             y_offset = -y_offset
+    #
+    #         if self.rect.top + y_offset < obstacle.rect.bottom \
+    #                 and self.rect.left + x_offset <= obstacle.rect.right \
+    #                 or self.rect.right + x_offset >= obstacle.rect.left:
+    #             y_offset = -y_offset
+    #
+    #     return [x_offset, y_offset]

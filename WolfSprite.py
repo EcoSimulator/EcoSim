@@ -14,6 +14,7 @@ class WolfSprite(Sprite):
         Sprite.__init__(self, image, image_rect, type)
         self.speed = 15
         self.radius = 150
+        self.health = 125
 
     def update(self):
         sprite_list = pygame.sprite.spritecollide(self, WorldMap.deer_group, False, pygame.sprite.collide_circle)
@@ -32,8 +33,7 @@ class WolfSprite(Sprite):
                 WorldMap.deer_group.remove_internal(deer)
                 dirtyrect = Utils.clean_screen.subsurface(deer.rect).copy()
                 self.screen.blit(dirtyrect, deer.rect)
-                pygame.display.flip()
-                # Utils.output_message(self.screen, "A wolf killed a deer.")
+                self.health += 20
             pygame.display.flip()
             pygame.time.delay(100)
         else:
