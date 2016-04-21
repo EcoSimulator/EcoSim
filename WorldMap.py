@@ -17,7 +17,7 @@ buttons_global =[]
 
 # displays the map, initializes terrain and buttons
 def display_map():
-       # just a random size
+    # just a random size
     pygame.display.set_caption("Environment Simulator")     # write the caption
 
     # sets the terrain to an image
