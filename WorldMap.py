@@ -36,6 +36,13 @@ def display_map():
     while True:
         mouse_monitor(buttons)
         for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    while True:
+                        for event in pygame.event.get():
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_ESCAPE:
+                                    break
             if event.type == pygame.QUIT:
                 sys.exit()
         wolf_group.update()
