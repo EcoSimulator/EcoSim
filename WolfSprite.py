@@ -8,12 +8,14 @@ import math
 import Utils
 
 
+
 class WolfSprite(Sprite):
 
     def __init__(self, image, image_rect, type, screen):
         Sprite.__init__(self, image, image_rect, type, screen)
         self.speed = 15
         self.radius = 150
+        self.stealth = 60
 
     def update(self):
         sprite_list = pygame.sprite.spritecollide(self, WorldMap.deer_group, False, pygame.sprite.collide_circle)
