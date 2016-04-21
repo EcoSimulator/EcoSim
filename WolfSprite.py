@@ -4,7 +4,6 @@
 from Sprite import Sprite
 import WorldMap
 import pygame
-import math
 import Utils
 
 
@@ -25,6 +24,13 @@ class WolfSprite(Sprite):
             distance = Utils.distance(self.rect.centerx, self.rect.centery, direction_x, direction_y)
             move_to_x = int(self.speed * (direction_x - self.rect.centerx)/distance)
             move_to_y = int(self.speed * (direction_y - self.rect.centery)/distance)
+            # x_y_offsets = self.move_hits_object(move_to_x, move_to_y)
+            # if not move_to_x == x_y_offsets[0]:
+            #     print "we hit object x"
+            #     move_to_x = x_y_offsets[0]
+            # if not move_to_y == x_y_offsets[1]:
+            #     print "we hit object y"
+            #     move_to_y = x_y_offsets[1]
             dirtyrect = Utils.clean_screen.subsurface(self.rect).copy()
             self.screen.blit(dirtyrect, self.rect)
             self.rect.move_ip(move_to_x, move_to_y)

@@ -33,13 +33,13 @@ class Sprite(pygame.sprite.DirtySprite):
         x_offset = self.speed * math.cos(direction)
         y_offset = self.speed * math.sin(direction)
         # part of objects, don't work yet
-        x_y_offsets = self.move_hits_object(x_offset, y_offset)
-        if not x_offset == x_y_offsets[0]:
-            print "we hit object x"
-            x_offset = x_y_offsets[0]
-        if not y_offset == x_y_offsets[1]:
-            print "we hit object y"
-            y_offset = x_y_offsets[1]
+        # x_y_offsets = self.move_hits_object(x_offset, y_offset)
+        # if not x_offset == x_y_offsets[0]:
+        #     print "we hit object x"
+        #     x_offset = x_y_offsets[0]
+        # if not y_offset == x_y_offsets[1]:
+        #     print "we hit object y"
+        #     y_offset = x_y_offsets[1]
         while not self.move_is_within_surface(x_offset, y_offset):
             direction = self.make_good_move(x_offset, y_offset)
             x_offset = self.speed * math.cos(direction)
@@ -103,26 +103,26 @@ class Sprite(pygame.sprite.DirtySprite):
         pygame.display.flip()
 
     # # TODO finish up so sprites can't walk into object
-    def move_hits_object(self, x_offset, y_offset):
-        for obstacle in WorldMap.obstacle_group:
-            if self.rect.left + x_offset < obstacle.rect.right \
-                    and self.rect.bottom + y_offset >= obstacle.rect.top \
-                    or self.rect.top + y_offset <= obstacle.rect.bottom:
-                x_offset = -x_offset
-
-            if self.rect.right + x_offset > obstacle.rect.left\
-                    and self.rect.bottom + y_offset >= obstacle.rect.top \
-                    or self.rect.top + y_offset <= obstacle.rect.bottom:
-                x_offset = -x_offset
-
-            if self.rect.bottom + y_offset > obstacle.rect.top\
-                    and self.rect.left + x_offset <= obstacle.rect.right\
-                    or self.rect.right + x_offset >= obstacle.rect.left:
-                y_offset = -y_offset
-
-            if self.rect.top + y_offset < obstacle.rect.bottom \
-                    and self.rect.left + x_offset <= obstacle.rect.right \
-                    or self.rect.right + x_offset >= obstacle.rect.left:
-                y_offset = -y_offset
-
-        return [x_offset, y_offset]
+    # def move_hits_object(self, x_offset, y_offset):
+    #     for obstacle in WorldMap.obstacle_group:
+    #         if self.rect.left + x_offset < obstacle.rect.right \
+    #                 and self.rect.bottom + y_offset >= obstacle.rect.top \
+    #                 or self.rect.top + y_offset <= obstacle.rect.bottom:
+    #             x_offset = -x_offset
+    #
+    #         if self.rect.right + x_offset > obstacle.rect.left\
+    #                 and self.rect.bottom + y_offset >= obstacle.rect.top \
+    #                 or self.rect.top + y_offset <= obstacle.rect.bottom:
+    #             x_offset = -x_offset
+    #
+    #         if self.rect.bottom + y_offset > obstacle.rect.top\
+    #                 and self.rect.left + x_offset <= obstacle.rect.right\
+    #                 or self.rect.right + x_offset >= obstacle.rect.left:
+    #             y_offset = -y_offset
+    #
+    #         if self.rect.top + y_offset < obstacle.rect.bottom \
+    #                 and self.rect.left + x_offset <= obstacle.rect.right \
+    #                 or self.rect.right + x_offset >= obstacle.rect.left:
+    #             y_offset = -y_offset
+    #
+    #     return [x_offset, y_offset]
