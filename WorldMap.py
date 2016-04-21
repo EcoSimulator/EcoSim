@@ -13,6 +13,7 @@ import Utils
 
 deer_group = DeerGroup()
 wolf_group = WolfGroup()
+buttons_global =[]
 
 # displays the map, initializes terrain and buttons
 def display_map():
@@ -27,6 +28,8 @@ def display_map():
     Utils.screen.blit(terrain, terrain_rect)
 
     buttons = make_buttons()   # the list of buttons, its a list of tuples [(image, image_rectangle)]
+    global buttons_global
+    buttons_global = buttons
 
     # loop to listen on the mouse, delayed cuz otherwise stuff flickers
     count = 0
@@ -147,7 +150,7 @@ def reproduce(count):
 
         rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
                          random.randrange(buffer, Utils.screen_size[1] - buffer))
-        new_sprite = create_sprite(Utils.screen, rand_location, "Resources/sprites/deer.png", "deer")
+        new_sprite = create_sprite( Utils.screen, rand_location, "Resources/sprites/deer.png", "deer")
         while not Sprite.move_is_within_surface(new_sprite, random.randrange(buffer, Utils.screen_size[0] - buffer),
                                                 random.randrange(buffer, Utils.screen_size[1] - buffer)):
             rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
