@@ -11,13 +11,14 @@ import Utils
 
 class WolfSprite(Sprite):
 
-    def __init__(self, image, image_rect, type, screen):
-        Sprite.__init__(self, image, image_rect, type, screen)
+    def __init__(self, image, image_rect, type):
+        Sprite.__init__(self, image, image_rect, type)
         self.speed = 15
         self.radius = 150
         self.stealth = 60
 
     def update(self):
+        WorldMap.mouse_monitor(WorldMap.buttons_global)
         sprite_list = pygame.sprite.spritecollide(self, WorldMap.deer_group, False, pygame.sprite.collide_circle)
         if len(sprite_list) > 0:
             deer = Utils.find_closest_sprite(self, sprite_list)

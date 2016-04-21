@@ -9,38 +9,38 @@ from WolfGroup import WolfGroup
 from WolfSprite import WolfSprite
 from DeerSprite import DeerSprite
 import random
-
+import Utils
 
 deer_group = DeerGroup()
 wolf_group = WolfGroup()
-screen_size = 1280, 720
-
+buttons_global =[]
 
 # displays the map, initializes terrain and buttons
 def display_map():
        # just a random size
-    screen = pygame.display.set_mode(screen_size)  # creates the screen
     pygame.display.set_caption("Environment Simulator")     # write the caption
 
     # sets the terrain to an image
     terrain = pygame.image.load("Resources/randomterrain.jpg")
-    terrain_rect = Rect((0, 0), screen_size)
+    terrain_rect = Rect((0, 0), Utils.screen_size)
 
     # blit the terrain image to the screen
-    screen.blit(terrain, terrain_rect)
+    Utils.screen.blit(terrain, terrain_rect)
 
-    buttons = make_buttons(screen)   # the list of buttons, its a list of tuples [(image, image_rectangle)]
+    buttons = make_buttons()   # the list of buttons, its a list of tuples [(image, image_rectangle)]
+    global buttons_global
+    buttons_global = buttons
 
     # loop to listen on the mouse, delayed cuz otherwise stuff flickers
     count = 0
     while True:
-        mouse_monitor(screen, buttons)
+        mouse_monitor(buttons)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
         wolf_group.update()
         deer_group.update()
-        reproduce(screen, count)
+        reproduce(count)
         pygame.time.delay(100)
         count += 1
         if count > 1000:
@@ -48,7 +48,7 @@ def display_map():
 
 
 # makes all the buttons
-def make_buttons(screen):
+def make_buttons():
     buttons = []
 
     # make a deer button, Rect creates the rectangle to draw the button in
@@ -67,14 +67,14 @@ def make_buttons(screen):
     # blit terrain and buttons
     # flip just refreshes screen to display blits since last flip
     for button in buttons:
-        screen.blit(button[0], button[1])
+        Utils.screen.blit(button[0], button[1])
     pygame.display.flip()
 
     return buttons
 
 
 # monitors mouse activity, mostly used for selecting buttons and placing animals now
-def mouse_monitor(screen, buttons):
+def mouse_monitor(buttons):
     mouse = pygame.mouse    # our mouse from now on
     mouse_pos = mouse.get_pos()     # the position of the mouse
     for button in buttons:
@@ -85,27 +85,27 @@ def mouse_monitor(screen, buttons):
             if buttons.index(button) == 0:
                 # change to highlighted deer button
                 deer_button = pygame.image.load("Resources/buttons/deerselected.png")
-                screen.blit(deer_button, button[1])
+                Utils.screen.blit(deer_button, button[1])
                 pygame.display.flip()
                 # waits for click to select deer button
                 for event in pygame.event.get():
                     if event.type == MOUSEBUTTONDOWN:
-                        place_image(screen, mouse, "Resources/sprites/deer.png", "deer")
+                        place_image(Utils.screen, mouse, "Resources/sprites/deer.png", "deer")
             # button[1] = wolf
             elif buttons.index(button) == 1:
                 # change to highlighted wolf button
                 deer_button = pygame.image.load("Resources/buttons/wolfselected.png")
-                screen.blit(deer_button, button[1])
+                Utils.screen.blit(deer_button, button[1])
                 pygame.display.flip()
                 # waits for click to select wolf button
                 for event in pygame.event.get():
                     if event.type == MOUSEBUTTONDOWN:
-                        place_image(screen, mouse, "Resources/sprites/wolf.png", "wolf")
+                        place_image(Utils.screen, mouse, "Resources/sprites/wolf.png", "wolf")
             # update position for while loop
             mouse_pos = mouse.get_pos()
     # return buttons to normal
     for button in buttons:
-        screen.blit(button[0], button[1])
+        Utils.screen.blit(button[0], button[1])
     pygame.display.flip()
 
 
@@ -114,15 +114,15 @@ def place_image(screen, mouse, image_name, animal_name):
     while True:  # waits forever, until user places animal
         for event in pygame.event.get():
             if event.type == MOUSEBUTTONDOWN:
-                location = buffer_mouse_pos(screen, list(mouse.get_pos()))
-                spawn_sprite(screen, location, image_name, animal_name)
+                location = buffer_mouse_pos(list(mouse.get_pos()))
+                spawn_sprite(location, image_name, animal_name)
                 return
 
 
-def spawn_sprite(screen, location, image_name, animal_name):
+def spawn_sprite(location, image_name, animal_name):
     image = pygame.image.load(image_name)
     image_rect = Rect(location, (24, 24))
-    new_sprite = Sprite(image, image_rect, animal_name, screen)
+    new_sprite = Sprite(image, image_rect, animal_name)
     new_sprite.blit()
     add_to_correct_group(new_sprite)
 
@@ -130,57 +130,59 @@ def spawn_sprite(screen, location, image_name, animal_name):
 def create_sprite(screen, location, image_name, animal_name):
     image = pygame.image.load(image_name)
     image_rect = Rect(location, (24, 24))
-    new_sprite = Sprite(image, image_rect, animal_name, screen)
+    new_sprite = Sprite(image, image_rect, animal_name)
     return new_sprite
 
 
-def reproduce(screen, count):
+def reproduce(count):
     buffer = 50     # 50 pixel buffer
-    if count % 100 == 0:
-        rand_location = (random.randrange(buffer, screen_size[0] - buffer),
-                         random.randrange(buffer, screen_size[1] - buffer))
-        new_sprite = create_sprite(screen, rand_location, "Resources/sprites/wolf.png", "wolf")
-        while not Sprite.move_is_within_surface(new_sprite, random.randrange(buffer, screen_size[0] - buffer), random.randrange(buffer, screen_size[1] - buffer)):
-            rand_location = (random.randrange(buffer, screen_size[0] - buffer),
-                             random.randrange(buffer, screen_size[1] - buffer))
-            new_sprite = create_sprite(screen, rand_location, "Resources/sprites/wolf.png", "wolf")
+    if count % 10 == 0:
+        rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
+                         random.randrange(buffer, Utils.screen_size[1] - buffer))
+        new_sprite = create_sprite(Utils.screen, rand_location, "Resources/sprites/wolf.png", "wolf")
+        while not Sprite.move_is_within_surface(new_sprite, random.randrange(buffer, Utils.screen_size[0] - buffer),
+                                                random.randrange(buffer, Utils.screen_size[1] - buffer)):
+            rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
+                             random.randrange(buffer, Utils.screen_size[1] - buffer))
+            new_sprite = create_sprite(Utils.screen, rand_location, "Resources/sprites/wolf.png", "wolf")
         new_sprite.kill()
-        spawn_sprite(screen, rand_location, "Resources/sprites/wolf.png", "wolf")
+        spawn_sprite(rand_location, "Resources/sprites/wolf.png", "wolf")
 
-        rand_location = (random.randrange(buffer, screen_size[0] - buffer),
-                         random.randrange(buffer, screen_size[1] - buffer))
-        new_sprite = create_sprite(screen, rand_location, "Resources/sprites/deer.png", "deer")
-        while not Sprite.move_is_within_surface(new_sprite, random.randrange(buffer, screen_size[0] - buffer), random.randrange(buffer, screen_size[1] - buffer)):
-            rand_location = (random.randrange(buffer, screen_size[0] - buffer),
-                             random.randrange(buffer, screen_size[1] - buffer))
-            new_sprite = create_sprite(screen, rand_location, "Resources/sprites/deer.png", "deer")
+        rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
+                         random.randrange(buffer, Utils.screen_size[1] - buffer))
+        new_sprite = create_sprite( Utils.screen, rand_location, "Resources/sprites/deer.png", "deer")
+        while not Sprite.move_is_within_surface(new_sprite, random.randrange(buffer, Utils.screen_size[0] - buffer),
+                                                random.randrange(buffer, Utils.screen_size[1] - buffer)):
+            rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
+                             random.randrange(buffer, Utils.screen_size[1] - buffer))
+            new_sprite = create_sprite(Utils.screen, rand_location, "Resources/sprites/deer.png", "deer")
         new_sprite.kill()
-        spawn_sprite(screen, rand_location, "Resources/sprites/deer.png", "deer")
+        spawn_sprite(rand_location, "Resources/sprites/deer.png", "deer")
 
 
 def add_to_correct_group(sprite):
     if sprite.type == "wolf":
-        wolf_group.add_internal(WolfSprite(sprite.image, sprite.rect, sprite.type, sprite.screen))
+        wolf_group.add_internal(WolfSprite(sprite.image, sprite.rect, sprite.type))
     elif sprite.type == "deer":
-        deer_group.add_internal(DeerSprite(sprite.image, sprite.rect, sprite.type, sprite.screen))
+        deer_group.add_internal(DeerSprite(sprite.image, sprite.rect, sprite.type))
 
 
-def buffer_mouse_pos(screen, mouse_pos):
+def buffer_mouse_pos(mouse_pos):
     buffer = 50     # 5= pixel buffer
     if mouse_pos[0] <= buffer:  # left
         mouse_pos[0] += buffer
         if mouse_pos[1] <= buffer:  # left top
             mouse_pos[1] += buffer
-        elif mouse_pos[1] >= screen.get_bounding_rect().bottom - 1.5 * buffer:    # bottom left
+        elif mouse_pos[1] >= Utils.screen.get_bounding_rect().bottom - 1.5 * buffer:    # bottom left
             mouse_pos[1] -= 2 * buffer
-    elif mouse_pos[0] >= screen.get_bounding_rect().right - 1.5 * buffer:     # right
+    elif mouse_pos[0] >= Utils.screen.get_bounding_rect().right - 1.5 * buffer:     # right
         mouse_pos[0] -= 2 * buffer
         if mouse_pos[1] <= buffer:  # right top
             mouse_pos[1] += buffer
-        elif mouse_pos[1] >= screen.get_bounding_rect().bottom - 1.5 * buffer:  # bottom right
+        elif mouse_pos[1] >= Utils.screen.get_bounding_rect().bottom - 1.5 * buffer:  # bottom right
             mouse_pos[1] -= 2 * buffer
     elif mouse_pos[1] <= buffer:  # top
             mouse_pos[1] += buffer
-    elif mouse_pos[1] >= screen.get_bounding_rect().bottom - 1.5 * buffer:  # bottom
+    elif mouse_pos[1] >= Utils.screen.get_bounding_rect().bottom - 1.5 * buffer:  # bottom
         mouse_pos[1] -= 2 * buffer
     return mouse_pos

@@ -9,12 +9,12 @@ import Utils
 
 class Sprite(pygame.sprite.DirtySprite):
 
-    def __init__(self, image, rect, type, screen):
+    def __init__(self, image, rect, type):
         pygame.sprite.Sprite.__init__(self)
         self.image = image
         self.rect = rect
         self.type = type
-        self.screen = screen
+        self.screen = Utils.screen
         self.speed = 10
 
     def add_internal(self, group):
