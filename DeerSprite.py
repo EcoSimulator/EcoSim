@@ -12,7 +12,7 @@ class DeerSprite(Sprite):
 
     def __init__(self, image, image_rect, type, screen):
         Sprite.__init__(self, image, image_rect, type, screen)
-        self.speed = 24
+        self.speed = 24        
         self.radius = 100
         self.runningAway = False
 
