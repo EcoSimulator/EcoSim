@@ -17,7 +17,7 @@ buttons_global =[]
 
 # displays the map, initializes terrain and buttons
 def display_map():
-       # just a random size
+    # just a random size
     pygame.display.set_caption("Environment Simulator")     # write the caption
 
     # sets the terrain to an image
@@ -36,6 +36,10 @@ def display_map():
     while True:
         mouse_monitor(buttons)
         for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    paused = True
+                    pause(paused)
             if event.type == pygame.QUIT:
                 sys.exit()
         wolf_group.update()
@@ -186,3 +190,82 @@ def buffer_mouse_pos(mouse_pos):
     elif mouse_pos[1] >= Utils.screen.get_bounding_rect().bottom - 1.5 * buffer:  # bottom
         mouse_pos[1] -= 2 * buffer
     return mouse_pos
+
+
+#pause menu stuff, may want to put all of this in its own file
+def pause(paused):
+    buttons = make_pause_buttons()
+
+    while paused:
+        if (pause_menu_monitor(buttons)) == 0:
+            paused = False
+            terrain = pygame.image.load("Resources/randomterrain.jpg")
+            terrain_rect = Rect((0, 0), Utils.screen_size)
+            Utils.screen.blit(terrain, terrain_rect)
+            pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    paused = False
+                    terrain = pygame.image.load("Resources/randomterrain.jpg")
+                    terrain_rect = Rect((0, 0), Utils.screen_size)
+                    Utils.screen.blit(terrain, terrain_rect)
+                    pygame.display.flip()
+                    break
+
+
+def make_pause_buttons():
+    center_x = Utils.screen_size[0]/2
+    center_y = Utils.screen_size[1]/2
+    buttons = []
+
+    paused_label = pygame.image.load("Resources/buttons/paused.png")
+    paused_label_rect = Rect((center_x-116, center_y-115), (111, 21))
+    resume_button = pygame.image.load("Resources/buttons/resumenormal.png")
+    resume_button_rect = Rect((center_x-75, center_y-50), (129, 39))
+    quit_button = pygame.image.load("Resources/buttons/quitnormal.png")
+    quit_button_rect = Rect((center_x-75, center_y), (129, 39))
+
+    buttons.append((resume_button, resume_button_rect))
+    buttons.append((quit_button, quit_button_rect))
+
+    Utils.screen.blit(paused_label, paused_label_rect)
+    for button in buttons:
+        Utils.screen.blit(button[0], button[1])
+    pygame.display.flip()
+    return buttons
+
+
+def pause_menu_monitor(buttons):
+    mouse = pygame.mouse    # our mouse from now on
+    mouse_pos = mouse.get_pos()     # the position of the mouse
+    resume = 0
+    quit = 1
+    for button in buttons:
+        # while the mouse is within the bounds of any button in the button list
+        while (button[1].left < mouse_pos[0] < button[1].right and
+                button[1].top < mouse_pos[1] < button[1].bottom):
+            # button[0] = resume
+            if buttons.index(button) == 0:
+                resume_button = pygame.image.load("Resources/buttons/resumeselected.png")
+                Utils.screen.blit(resume_button, button[1])
+                pygame.display.flip()
+                for event in pygame.event.get():
+                    if event.type == MOUSEBUTTONDOWN:
+                        return resume
+            # button[1] = quit
+            elif buttons.index(button) == 1:
+                quit_button = pygame.image.load("Resources/buttons/quitselected.png")
+                Utils.screen.blit(quit_button, button[1])
+                pygame.display.flip()
+                for event in pygame.event.get():
+                    if event.type == MOUSEBUTTONDOWN:
+                        sys.exit()
+            # update position for while loop
+            mouse_pos = mouse.get_pos()
+    # return buttons to normal
+    for button in buttons:
+        Utils.screen.blit(button[0], button[1])
+    pygame.display.flip()

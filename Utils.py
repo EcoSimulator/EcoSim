@@ -8,7 +8,7 @@ clean_screen = pygame.image.load("Resources/randomterrain.jpg")
 
 screen_size = 1280, 720
 
-screen = pygame.display.set_mode(screen_size)  # creates the screen
+screen = pygame.display.set_mode(screen_size)  # creates the screen, add in pygame.FULLSCREEN to fullscreen
 
 
 def output_message(screen, message):
