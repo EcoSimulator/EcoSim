@@ -36,7 +36,7 @@ class DeerSprite(Sprite):
 
                 direction = random.randrange(90, 270)
                 # move_to_x *= math.cos(direction)
-                # move_to_y *= self.speed * math.sin(direction)
+                # move_to_y *= math.sin(direction)
                 if self.move_is_within_surface(move_to_x, move_to_y):
                     dirtyrect = Utils.clean_screen.subsurface(self.rect).copy()
                     self.screen.blit(dirtyrect, self.rect)

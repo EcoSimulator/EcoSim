@@ -30,7 +30,7 @@ class Sprite(pygame.sprite.DirtySprite):
         direction = math.radians(random.randint(0, 360))
         x_offset = self.speed * math.sin(direction)
         y_offset = self.speed * math.cos(direction)
-        while not self.move_is_within_surface(x_offset, y_offset):
+        if not self.move_is_within_surface(x_offset, y_offset):
             direction = self.make_good_move(x_offset, y_offset)
             x_offset = self.speed * math.sin(direction)
             y_offset = self.speed * math.cos(direction)
