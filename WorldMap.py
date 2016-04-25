@@ -6,14 +6,18 @@ import pygame
 from pygame.locals import *
 from DeerGroup import DeerGroup
 from WolfGroup import WolfGroup
+from PlantGroup import PlantGroup
 from WolfSprite import WolfSprite
 from DeerSprite import DeerSprite
+from PlantSprite import PlantSprite
 import random
 import Utils
 
 deer_group = DeerGroup()
 wolf_group = WolfGroup()
-buttons_global =[]
+plant_group = PlantGroup()
+buttons_global = []
+
 
 # displays the map, initializes terrain and buttons
 def display_map():
@@ -42,8 +46,10 @@ def display_map():
                     pause(paused)
             if event.type == pygame.QUIT:
                 sys.exit()
-        wolf_group.update()
-        deer_group.update()
+        if len(wolf_group) > 0:
+            wolf_group.update()
+        if len(deer_group) > 0:
+            deer_group.update()
         reproduce(count)
         pygame.time.delay(100)
         count += 1
@@ -131,7 +137,7 @@ def spawn_sprite(location, image_name, animal_name):
     add_to_correct_group(new_sprite)
 
 
-def create_sprite(screen, location, image_name, animal_name):
+def create_sprite(location, image_name, animal_name):
     image = pygame.image.load(image_name)
     image_rect = Rect(location, (24, 24))
     new_sprite = Sprite(image, image_rect, animal_name)
@@ -143,32 +149,42 @@ def reproduce(count):
     if count % 10 == 0:
         rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
                          random.randrange(buffer, Utils.screen_size[1] - buffer))
-        new_sprite = create_sprite(Utils.screen, rand_location, "Resources/sprites/wolf.png", "wolf")
-        while not Sprite.move_is_within_surface(new_sprite, random.randrange(buffer, Utils.screen_size[0] - buffer),
-                                                random.randrange(buffer, Utils.screen_size[1] - buffer)):
-            rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
-                             random.randrange(buffer, Utils.screen_size[1] - buffer))
-            new_sprite = create_sprite(Utils.screen, rand_location, "Resources/sprites/wolf.png", "wolf")
-        new_sprite.kill()
+        # new_sprite = create_sprite(rand_location, "Resources/sprites/wolf.png", "wolf")
+        # while not Sprite.move_is_within_surface(new_sprite, rand_location[0], rand_location[1]):
+        #     rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
+        #                      random.randrange(buffer, Utils.screen_size[1] - buffer))
+        #     new_sprite = create_sprite(rand_location, "Resources/sprites/wolf.png", "wolf")
+        # new_sprite.kill()
         spawn_sprite(rand_location, "Resources/sprites/wolf.png", "wolf")
 
         rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
                          random.randrange(buffer, Utils.screen_size[1] - buffer))
-        new_sprite = create_sprite( Utils.screen, rand_location, "Resources/sprites/deer.png", "deer")
-        while not Sprite.move_is_within_surface(new_sprite, random.randrange(buffer, Utils.screen_size[0] - buffer),
-                                                random.randrange(buffer, Utils.screen_size[1] - buffer)):
-            rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
-                             random.randrange(buffer, Utils.screen_size[1] - buffer))
-            new_sprite = create_sprite(Utils.screen, rand_location, "Resources/sprites/deer.png", "deer")
-        new_sprite.kill()
+        # new_sprite = create_sprite(rand_location, "Resources/sprites/deer.png", "deer")
+        # while not Sprite.move_is_within_surface(new_sprite, rand_location[0], rand_location[1]):
+        #     rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
+        #                      random.randrange(buffer, Utils.screen_size[1] - buffer))
+        #     new_sprite = create_sprite(rand_location, "Resources/sprites/deer.png", "deer")
+        # new_sprite.kill()
         spawn_sprite(rand_location, "Resources/sprites/deer.png", "deer")
+
+        rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
+                         random.randrange(buffer, Utils.screen_size[1] - buffer))
+        # new_sprite = create_sprite(rand_location, "Resources/sprites/plant.png", "plant")
+        # while not Sprite.move_is_within_surface(new_sprite, rand_location[0], rand_location[1]):
+        #     rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
+        #                      random.randrange(buffer, Utils.screen_size[1] - buffer))
+        #     new_sprite = create_sprite(rand_location, "Resources/sprites/plant.png", "plant")
+        # new_sprite.kill()
+        spawn_sprite(rand_location, "Resources/sprites/plant.png", "plant")
 
 
 def add_to_correct_group(sprite):
     if sprite.type == "wolf":
-        wolf_group.add_internal(WolfSprite(sprite.image, sprite.rect, sprite.type))
+        wolf_group.add_internal(WolfSprite(sprite.rect))
     elif sprite.type == "deer":
-        deer_group.add_internal(DeerSprite(sprite.image, sprite.rect, sprite.type))
+        deer_group.add_internal(DeerSprite(sprite.rect))
+    elif sprite.type == "plant":
+        plant_group.add_internal(PlantSprite(sprite.rect))
 
 
 def buffer_mouse_pos(mouse_pos):
@@ -192,7 +208,7 @@ def buffer_mouse_pos(mouse_pos):
     return mouse_pos
 
 
-#pause menu stuff, may want to put all of this in its own file
+# pause menu stuff, may want to put all of this in its own file
 def pause(paused):
     buttons = make_pause_buttons()
 
