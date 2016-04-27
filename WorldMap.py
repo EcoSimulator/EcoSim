@@ -39,6 +39,8 @@ def display_map():
     count = 0
     while True:
         mouse_monitor(buttons)
+        display_population_count(wolf_group, 1)
+        display_population_count(deer_group, 0)
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -144,6 +146,28 @@ def create_sprite(location, image_name, animal_name):
     return new_sprite
 
 
+# display population count of a sprite group, near its button (given button index in buttons_global
+def display_population_count(sprite_group, button_index):
+    # initialize font; must be called after 'pygame.init()' to avoid 'Font not Initialized' error
+    font = pygame.font.SysFont("monospace", 28, True, False)
+
+    # get count of group
+    sprite_count = str(len(sprite_group))
+
+    # generate coordinates and render text
+    button_x = buttons_global[button_index][1].right + 10
+    button_y = buttons_global[button_index][1].centery - 12
+    label = font.render(sprite_count, 1, (255, 255, 255))
+
+    # reset view
+    dirty_rect = Utils.clean_screen.subsurface(Rect((button_x, button_y), (40, 39))).copy()
+    Utils.screen.blit(dirty_rect, (button_x, button_y))
+
+    # blit new text
+    Utils.screen.blit(label, (button_x, button_y))
+    pygame.display.flip()
+
+
 def reproduce(count):
     buffer = 50     # 50 pixel buffer
     if count % 10 == 0:
@@ -156,6 +180,7 @@ def reproduce(count):
         #     new_sprite = create_sprite(rand_location, "Resources/sprites/wolf.png", "wolf")
         # new_sprite.kill()
         spawn_sprite(rand_location, "Resources/sprites/wolf.png", "wolf")
+        display_population_count(wolf_group, 1)     # display new wolf count
 
         rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
                          random.randrange(buffer, Utils.screen_size[1] - buffer))
@@ -166,6 +191,7 @@ def reproduce(count):
         #     new_sprite = create_sprite(rand_location, "Resources/sprites/deer.png", "deer")
         # new_sprite.kill()
         spawn_sprite(rand_location, "Resources/sprites/deer.png", "deer")
+        display_population_count(deer_group, 0)     # display new deer count
 
         rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
                          random.randrange(buffer, Utils.screen_size[1] - buffer))
@@ -285,3 +311,5 @@ def pause_menu_monitor(buttons):
     for button in buttons:
         Utils.screen.blit(button[0], button[1])
     pygame.display.flip()
+
+
