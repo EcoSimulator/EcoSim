@@ -41,6 +41,7 @@ def display_map():
         mouse_monitor(buttons)
         display_population_count(wolf_group, 1)
         display_population_count(deer_group, 0)
+        display_population_count(plant_group,2)
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -71,9 +72,14 @@ def make_buttons():
     wolf_button = pygame.image.load("Resources/buttons/wolfnormal.png")
     wolf_button_rect = Rect((0, deer_button_rect.bottom), (40, 39))
 
+    # make a plant button, Rect creates the rectangle to draw the button in
+    plant_button = pygame.image.load("Resources/buttons/plantnormal.png")
+    plant_button_rect = Rect((0, wolf_button_rect.bottom), (40, 39))
+
     # add buttons to the list
     buttons.append((deer_button, deer_button_rect))
     buttons.append((wolf_button, wolf_button_rect))
+    buttons.append((plant_button, plant_button_rect))
 
     # blit- puts stuff on the screen
     # blit terrain and buttons
@@ -106,13 +112,23 @@ def mouse_monitor(buttons):
             # button[1] = wolf
             elif buttons.index(button) == 1:
                 # change to highlighted wolf button
-                deer_button = pygame.image.load("Resources/buttons/wolfselected.png")
-                Utils.screen.blit(deer_button, button[1])
+                wolf_button = pygame.image.load("Resources/buttons/wolfselected.png")
+                Utils.screen.blit(wolf_button, button[1])
                 pygame.display.flip()
                 # waits for click to select wolf button
                 for event in pygame.event.get():
                     if event.type == MOUSEBUTTONDOWN:
                         place_image(Utils.screen, mouse, "Resources/sprites/wolf.png", "wolf")
+            # button[2] = plant
+            elif buttons.index(button) == 2:
+                # change to highlighted plant button
+                plant_button = pygame.image.load("Resources/buttons/plantselected.png")
+                Utils.screen.blit(plant_button, button[1])
+                pygame.display.flip()
+                # waits for click to select plant button
+                for event in pygame.event.get():
+                    if event.type == MOUSEBUTTONDOWN:
+                        place_image(Utils.screen, mouse, "Resources/sprites/plant.png", "plant")
             # update position for while loop
             mouse_pos = mouse.get_pos()
     # return buttons to normal
@@ -311,5 +327,3 @@ def pause_menu_monitor(buttons):
     for button in buttons:
         Utils.screen.blit(button[0], button[1])
     pygame.display.flip()
-
-

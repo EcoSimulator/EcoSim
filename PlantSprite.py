@@ -13,3 +13,4 @@ class PlantSprite(pygame.sprite.DirtySprite):
         self.rect = rect
         self.type = "plant"
         self.screen = Utils.screen
+
