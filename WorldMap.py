@@ -17,7 +17,7 @@ deer_group = DeerGroup()
 wolf_group = WolfGroup()
 plant_group = PlantGroup()
 buttons_global = []
-
+map = "Resources/terrain/map1.png"
 
 # displays the map, initializes terrain and buttons
 def display_map():
@@ -25,7 +25,7 @@ def display_map():
     pygame.display.set_caption("Environment Simulator")     # write the caption
 
     # sets the terrain to an image
-    terrain = pygame.image.load("Resources/randomterrain.jpg")
+    terrain = pygame.image.load(map)
     terrain_rect = Rect((0, 0), Utils.screen_size)
 
     # blit the terrain image to the screen
@@ -257,7 +257,7 @@ def pause(paused):
     while paused:
         if (pause_menu_monitor(buttons)) == 0:
             paused = False
-            terrain = pygame.image.load("Resources/randomterrain.jpg")
+            terrain = pygame.image.load(map)
             terrain_rect = Rect((0, 0), Utils.screen_size)
             Utils.screen.blit(terrain, terrain_rect)
             pygame.display.flip()
@@ -267,7 +267,7 @@ def pause(paused):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     paused = False
-                    terrain = pygame.image.load("Resources/randomterrain.jpg")
+                    terrain = pygame.image.load(map)
                     terrain_rect = Rect((0, 0), Utils.screen_size)
                     Utils.screen.blit(terrain, terrain_rect)
                     pygame.display.flip()

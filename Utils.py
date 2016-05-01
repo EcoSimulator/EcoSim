@@ -3,8 +3,9 @@
 
 import pygame
 import math
+map = "Resources/terrain/map1.png"
 
-clean_screen = pygame.image.load("Resources/randomterrain.jpg")
+clean_screen = pygame.image.load(map)
 
 screen_size = 1280, 720
 
