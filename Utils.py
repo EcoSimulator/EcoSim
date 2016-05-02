@@ -3,6 +3,7 @@
 
 import pygame
 import math
+
 map = "Resources/terrain/map1.png"
 
 clean_screen = pygame.image.load(map)
@@ -27,6 +28,20 @@ def find_closest_sprite(target, sprite_list):
     dist = distance(target.rect.centerx, target.rect.centery, closest.rect.centerx, closest.rect.centery)
     for sprite in sprite_list:
         if dist > abs(distance(target.rect.centerx, target.rect.centery, sprite.rect.centerx, sprite.rect.centery)):
-            closest = sprite
+            # if sprite.type == "plant" and not sprite.is_pollinated:
+                closest = sprite
     return closest
 
+
+def rect_within_screen(loc):
+    rect = pygame.Rect(loc[0], loc[1], 24, 24)
+    buffer = 50  # 50 pixel buffer from edge
+    if rect.left <= screen.get_rect().left + buffer:
+        return False
+    if rect.right >= screen.get_rect().right - buffer:
+        return False
+    if rect.top <= screen.get_rect().top + buffer:
+        return False
+    if rect.bottom >= screen.get_rect().bottom - buffer:
+        return False
+    return True

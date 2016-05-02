@@ -6,7 +6,6 @@ import random
 import math
 import Utils
 
-
 class Sprite(pygame.sprite.DirtySprite):
 
     def __init__(self, image, rect, type):
@@ -82,9 +81,16 @@ class Sprite(pygame.sprite.DirtySprite):
         sprite_list = pygame.sprite.spritecollide(self, group, False, pygame.sprite.collide_circle)
         if len(sprite_list) > 0:
             sprite = Utils.find_closest_sprite(self, sprite_list)
+            while sprite.type == "plant" and sprite.is_pollinated:
+                if len(sprite_list) - 1 >= 0:
+                    return False
+                sprite_list.remove(sprite)
+                sprite = Utils.find_closest_sprite(self, sprite_list)
             direction_x = sprite.rect.centerx
             direction_y = sprite.rect.centery
             distance = Utils.distance(self.rect.centerx, self.rect.centery, direction_x, direction_y)
+            if distance == 0:
+                distance = .1
             move_to_x = int(self.speed * (direction_x - self.rect.centerx) / distance)
             move_to_y = int(self.speed * (direction_y - self.rect.centery) / distance)
             dirtyrect = Utils.clean_screen.subsurface(self.rect).copy()
@@ -92,12 +98,25 @@ class Sprite(pygame.sprite.DirtySprite):
             self.rect.move_ip(move_to_x, move_to_y)
             self.blit()
             if pygame.sprite.collide_rect(self, sprite):
-                self.health += 20
-                group.remove_internal(sprite)
-                dirtyrect = Utils.clean_screen.subsurface(sprite.rect).copy()
-                self.screen.blit(dirtyrect, sprite.rect)
-                pygame.display.flip()
-                # Utils.output_message(self.screen, "A wolf killed a deer.")
+                if self.type == "wolf":
+                    self.health += 20
+                    group.remove_internal(sprite)
+                    dirtyrect = Utils.clean_screen.subsurface(sprite.rect).copy()
+                    self.screen.blit(dirtyrect, sprite.rect)
+                    pygame.display.flip()
+                    # Utils.output_message(self.screen, "A wolf killed a deer.")
+                elif self.type == "deer":
+                    self.health += 20
+                    group.remove_internal(sprite)
+                    dirtyrect = Utils.clean_screen.subsurface(sprite.rect).copy()
+                    self.screen.blit(dirtyrect, sprite.rect)
+                    pygame.display.flip()
+                elif self.type == "bees":
+                    if sprite.type == "plant" and sprite.is_pollinated:
+                        return False
+                    else:
+                        self.health += 20
+                        sprite.pollinate()
             pygame.display.flip()
             pygame.time.delay(100)
             return True

@@ -10,14 +10,18 @@ from PlantGroup import PlantGroup
 from WolfSprite import WolfSprite
 from DeerSprite import DeerSprite
 from PlantSprite import PlantSprite
+from BeeGroup import BeeGroup
+from BeeSprite import BeeSprite
 import random
 import Utils
 
 deer_group = DeerGroup()
 wolf_group = WolfGroup()
 plant_group = PlantGroup()
+bee_group = BeeGroup()
 buttons_global = []
 map = "Resources/terrain/map1.png"
+
 
 # displays the map, initializes terrain and buttons
 def display_map():
@@ -41,7 +45,8 @@ def display_map():
         mouse_monitor(buttons)
         display_population_count(wolf_group, 1)
         display_population_count(deer_group, 0)
-        display_population_count(plant_group,2)
+        display_population_count(plant_group, 2)
+        display_population_count(bee_group, 3)
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -53,6 +58,10 @@ def display_map():
             wolf_group.update()
         if len(deer_group) > 0:
             deer_group.update()
+        if len(bee_group) > 0:
+            bee_group.update()
+        if len(plant_group) > 0:
+            plant_group.update()
         reproduce(count)
         pygame.time.delay(100)
         count += 1
@@ -76,10 +85,14 @@ def make_buttons():
     plant_button = pygame.image.load("Resources/buttons/plantnormal.png")
     plant_button_rect = Rect((0, wolf_button_rect.bottom), (40, 39))
 
+    bee_button = pygame.image.load("Resources/sprites/bees.png") # TODO: change for bee button
+    bee_button_rect = Rect((0, plant_button_rect.bottom), (40, 39))
+
     # add buttons to the list
     buttons.append((deer_button, deer_button_rect))
     buttons.append((wolf_button, wolf_button_rect))
     buttons.append((plant_button, plant_button_rect))
+    buttons.append((bee_button, bee_button_rect))
 
     # blit- puts stuff on the screen
     # blit terrain and buttons
@@ -108,7 +121,7 @@ def mouse_monitor(buttons):
                 # waits for click to select deer button
                 for event in pygame.event.get():
                     if event.type == MOUSEBUTTONDOWN:
-                        place_image(Utils.screen, mouse, "Resources/sprites/deer.png", "deer")
+                        place_image(mouse, "Resources/sprites/deer.png", "deer")
             # button[1] = wolf
             elif buttons.index(button) == 1:
                 # change to highlighted wolf button
@@ -118,7 +131,7 @@ def mouse_monitor(buttons):
                 # waits for click to select wolf button
                 for event in pygame.event.get():
                     if event.type == MOUSEBUTTONDOWN:
-                        place_image(Utils.screen, mouse, "Resources/sprites/wolf.png", "wolf")
+                        place_image(mouse, "Resources/sprites/wolf.png", "wolf")
             # button[2] = plant
             elif buttons.index(button) == 2:
                 # change to highlighted plant button
@@ -128,7 +141,16 @@ def mouse_monitor(buttons):
                 # waits for click to select plant button
                 for event in pygame.event.get():
                     if event.type == MOUSEBUTTONDOWN:
-                        place_image(Utils.screen, mouse, "Resources/sprites/plant.png", "plant")
+                        place_image(mouse, "Resources/sprites/plant.png", "plant")
+            elif buttons.index(button) == 3: # TODO: fix to bee button
+                # change to highlighted plant button
+                # bee_button = pygame.image.load("Resources/buttons/plantselected.png")
+                # Utils.screen.blit(bee_button, button[1])
+                # pygame.display.flip()
+                # waits for click to select plant button
+                for event in pygame.event.get():
+                    if event.type == MOUSEBUTTONDOWN:
+                        place_image(mouse, "Resources/sprites/bees.png", "bees")
             # update position for while loop
             mouse_pos = mouse.get_pos()
     # return buttons to normal
@@ -138,7 +160,7 @@ def mouse_monitor(buttons):
 
 
 # puts an image of an animal on screen at a mouse click
-def place_image(screen, mouse, image_name, animal_name):
+def place_image(mouse, image_name, animal_name):
     while True:  # waits forever, until user places animal
         for event in pygame.event.get():
             if event.type == MOUSEBUTTONDOWN:
@@ -147,12 +169,23 @@ def place_image(screen, mouse, image_name, animal_name):
                 return
 
 
-def spawn_sprite(location, image_name, animal_name):
+def spawn_sprite(location, image_name, animal_name, should_be_pollinated=False):
     image = pygame.image.load(image_name)
     image_rect = Rect(location, (24, 24))
-    new_sprite = Sprite(image, image_rect, animal_name)
+    if should_be_pollinated:
+        new_sprite = PlantSprite(image_rect, True)
+    else:
+        if animal_name == "wolf":
+            new_sprite = WolfSprite(image_rect)
+        elif animal_name == "deer":
+            new_sprite = DeerSprite(image_rect)
+        elif animal_name == "plant":
+            new_sprite = PlantSprite(image_rect)
+        elif animal_name == "bees":
+            new_sprite = BeeSprite(image_rect)
+        else:
+            new_sprite = Sprite(image, image_rect, animal_name)
     new_sprite.blit()
-    add_to_correct_group(new_sprite)
 
 
 def create_sprite(location, image_name, animal_name):
@@ -185,48 +218,39 @@ def display_population_count(sprite_group, button_index):
 
 
 def reproduce(count):
-    buffer = 50     # 50 pixel buffer
+    buffer = 150     # 50 pixel buffer
     if count % 10 == 0:
-        rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
-                         random.randrange(buffer, Utils.screen_size[1] - buffer))
-        # new_sprite = create_sprite(rand_location, "Resources/sprites/wolf.png", "wolf")
-        # while not Sprite.move_is_within_surface(new_sprite, rand_location[0], rand_location[1]):
-        #     rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
-        #                      random.randrange(buffer, Utils.screen_size[1] - buffer))
-        #     new_sprite = create_sprite(rand_location, "Resources/sprites/wolf.png", "wolf")
-        # new_sprite.kill()
+        rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
+                         random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
+        while not Utils.rect_within_screen(rand_location):
+            rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
+                             random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
         spawn_sprite(rand_location, "Resources/sprites/wolf.png", "wolf")
         display_population_count(wolf_group, 1)     # display new wolf count
 
-        rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
-                         random.randrange(buffer, Utils.screen_size[1] - buffer))
-        # new_sprite = create_sprite(rand_location, "Resources/sprites/deer.png", "deer")
-        # while not Sprite.move_is_within_surface(new_sprite, rand_location[0], rand_location[1]):
-        #     rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
-        #                      random.randrange(buffer, Utils.screen_size[1] - buffer))
-        #     new_sprite = create_sprite(rand_location, "Resources/sprites/deer.png", "deer")
-        # new_sprite.kill()
+        rand_location = (random.randint(buffer, Utils.screen.get_rect().right - buffer),
+                         random.randint(buffer, Utils.screen.get_rect().bottom - buffer))
+        while not Utils.rect_within_screen(rand_location):
+            rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
+                             random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
         spawn_sprite(rand_location, "Resources/sprites/deer.png", "deer")
         display_population_count(deer_group, 0)     # display new deer count
 
-        rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
-                         random.randrange(buffer, Utils.screen_size[1] - buffer))
-        # new_sprite = create_sprite(rand_location, "Resources/sprites/plant.png", "plant")
-        # while not Sprite.move_is_within_surface(new_sprite, rand_location[0], rand_location[1]):
-        #     rand_location = (random.randrange(buffer, Utils.screen_size[0] - buffer),
-        #                      random.randrange(buffer, Utils.screen_size[1] - buffer))
-        #     new_sprite = create_sprite(rand_location, "Resources/sprites/plant.png", "plant")
-        # new_sprite.kill()
+        rand_location = (random.randint(buffer, Utils.screen.get_rect().right - buffer),
+                         random.randint(buffer, Utils.screen.get_rect().bottom - buffer))
+        while not Utils.rect_within_screen(rand_location):
+            rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
+                             random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
         spawn_sprite(rand_location, "Resources/sprites/plant.png", "plant")
+        display_population_count(plant_group, 2)
 
-
-def add_to_correct_group(sprite):
-    if sprite.type == "wolf":
-        wolf_group.add_internal(WolfSprite(sprite.rect))
-    elif sprite.type == "deer":
-        deer_group.add_internal(DeerSprite(sprite.rect))
-    elif sprite.type == "plant":
-        plant_group.add_internal(PlantSprite(sprite.rect))
+        rand_location = (random.randint(buffer, Utils.screen.get_rect().right - buffer),
+                         random.randint(buffer, Utils.screen.get_rect().bottom - buffer))
+        while not Utils.rect_within_screen(rand_location):
+            rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
+                             random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
+        spawn_sprite(rand_location, "Resources/sprites/bees.png", "bees")
+        display_population_count(bee_group, 3)
 
 
 def buffer_mouse_pos(mouse_pos):
@@ -300,7 +324,6 @@ def pause_menu_monitor(buttons):
     mouse = pygame.mouse    # our mouse from now on
     mouse_pos = mouse.get_pos()     # the position of the mouse
     resume = 0
-    quit = 1
     for button in buttons:
         # while the mouse is within the bounds of any button in the button list
         while (button[1].left < mouse_pos[0] < button[1].right and

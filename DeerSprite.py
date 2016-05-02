@@ -16,6 +16,7 @@ class DeerSprite(Sprite):
         self.speed = 24
         self.radius = 100
         self.runningAway = False
+        WorldMap.deer_group.add_internal(self)
 
     def update(self):
         if self.health_monitor():
@@ -23,9 +24,9 @@ class DeerSprite(Sprite):
         WorldMap.mouse_monitor(WorldMap.buttons_global)
         # for all wolves in collide circle
         if not self.flee():
+            self.runningAway = False
             if not Sprite.hunt(self, WorldMap.plant_group):
                 Sprite.update(self)
-                self.runningAway = False
 
     def flee(self):
         sprite_list = pygame.sprite.spritecollide(self, WorldMap.wolf_group, False, pygame.sprite.collide_circle)
@@ -62,8 +63,8 @@ class DeerSprite(Sprite):
                     Sprite.update(self)
                     # move_to_x = move_to_x + int(math.cos(theta))
                     # move_to_y = move_to_y + int(math.sin(theta))
-            else:
-                Sprite.update(self)
+            # else:
+            #     Sprite.update(self)
 
             pygame.display.flip()
             pygame.time.delay(100)
@@ -72,7 +73,6 @@ class DeerSprite(Sprite):
             return False
 
     def health_monitor(self):
-        print self.health
         self.health -= 1
         if self.health <= 0:
             dirtyrect = Utils.clean_screen.subsurface(self.rect).copy()
