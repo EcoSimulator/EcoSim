@@ -41,6 +41,7 @@ def display_map():
 
     # loop to listen on the mouse, delayed cuz otherwise stuff flickers
     count = 0
+    reproduce(count, True)
     while True:
         mouse_monitor(buttons)
         display_population_count(wolf_group, 1)
@@ -85,7 +86,7 @@ def make_buttons():
     plant_button = pygame.image.load("Resources/buttons/plantnormal.png")
     plant_button_rect = Rect((0, wolf_button_rect.bottom), (40, 39))
 
-    bee_button = pygame.image.load("Resources/sprites/bees.png") # TODO: change for bee button
+    bee_button = pygame.image.load("Resources/buttons/beesnormal.png")
     bee_button_rect = Rect((0, plant_button_rect.bottom), (40, 39))
 
     # add buttons to the list
@@ -142,11 +143,11 @@ def mouse_monitor(buttons):
                 for event in pygame.event.get():
                     if event.type == MOUSEBUTTONDOWN:
                         place_image(mouse, "Resources/sprites/plant.png", "plant")
-            elif buttons.index(button) == 3: # TODO: fix to bee button
+            elif buttons.index(button) == 3:
                 # change to highlighted plant button
-                # bee_button = pygame.image.load("Resources/buttons/plantselected.png")
-                # Utils.screen.blit(bee_button, button[1])
-                # pygame.display.flip()
+                bee_button = pygame.image.load("Resources/buttons/beesselected.png")
+                Utils.screen.blit(bee_button, button[1])
+                pygame.display.flip()
                 # waits for click to select plant button
                 for event in pygame.event.get():
                     if event.type == MOUSEBUTTONDOWN:
@@ -217,40 +218,44 @@ def display_population_count(sprite_group, button_index):
     pygame.display.flip()
 
 
-def reproduce(count):
+def reproduce(count, first_generation=False):
     buffer = 150     # 50 pixel buffer
     if count % 10 == 0:
-        rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
-                         random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
-        while not Utils.rect_within_screen(rand_location):
+        if len(wolf_group) > 0 or first_generation:
             rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
                              random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
-        spawn_sprite(rand_location, "Resources/sprites/wolf.png", "wolf")
-        display_population_count(wolf_group, 1)     # display new wolf count
+            while not Utils.rect_within_screen(rand_location):
+                rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
+                                 random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
+            spawn_sprite(rand_location, "Resources/sprites/wolf.png", "wolf")
+            display_population_count(wolf_group, 1)     # display new wolf count
 
-        rand_location = (random.randint(buffer, Utils.screen.get_rect().right - buffer),
-                         random.randint(buffer, Utils.screen.get_rect().bottom - buffer))
-        while not Utils.rect_within_screen(rand_location):
-            rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
-                             random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
-        spawn_sprite(rand_location, "Resources/sprites/deer.png", "deer")
-        display_population_count(deer_group, 0)     # display new deer count
+        if len(deer_group) > 0 or first_generation:
+            rand_location = (random.randint(buffer, Utils.screen.get_rect().right - buffer),
+                             random.randint(buffer, Utils.screen.get_rect().bottom - buffer))
+            while not Utils.rect_within_screen(rand_location):
+                rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
+                                 random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
+            spawn_sprite(rand_location, "Resources/sprites/deer.png", "deer")
+            display_population_count(deer_group, 0)     # display new deer count
 
-        rand_location = (random.randint(buffer, Utils.screen.get_rect().right - buffer),
-                         random.randint(buffer, Utils.screen.get_rect().bottom - buffer))
-        while not Utils.rect_within_screen(rand_location):
-            rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
-                             random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
-        spawn_sprite(rand_location, "Resources/sprites/plant.png", "plant")
-        display_population_count(plant_group, 2)
+        if len(plant_group) > 0 or first_generation:
+            rand_location = (random.randint(buffer, Utils.screen.get_rect().right - buffer),
+                             random.randint(buffer, Utils.screen.get_rect().bottom - buffer))
+            while not Utils.rect_within_screen(rand_location):
+                rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
+                                 random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
+            spawn_sprite(rand_location, "Resources/sprites/plant.png", "plant")
+            display_population_count(plant_group, 2)
 
-        rand_location = (random.randint(buffer, Utils.screen.get_rect().right - buffer),
-                         random.randint(buffer, Utils.screen.get_rect().bottom - buffer))
-        while not Utils.rect_within_screen(rand_location):
-            rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
-                             random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
-        spawn_sprite(rand_location, "Resources/sprites/bees.png", "bees")
-        display_population_count(bee_group, 3)
+        if len(bee_group) > 0 or first_generation:
+            rand_location = (random.randint(buffer, Utils.screen.get_rect().right - buffer),
+                             random.randint(buffer, Utils.screen.get_rect().bottom - buffer))
+            while not Utils.rect_within_screen(rand_location):
+                rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
+                                 random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
+            spawn_sprite(rand_location, "Resources/sprites/bees.png", "bees")
+            display_population_count(bee_group, 3)
 
 
 def buffer_mouse_pos(mouse_pos):
