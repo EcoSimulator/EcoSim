@@ -15,9 +15,12 @@ class PlantSprite(Sprite):
         self.screen = Utils.screen
         self.is_pollinated = is_pollinated
         WorldMap.plant_group.add_internal(self)
+        if self.is_pollinated:
+            self.image = pygame.image.load("Resources/sprites/plantpollinated.png")
 
     def pollinate(self):
         self.is_pollinated = True
+        self.image = pygame.image.load("Resources/sprites/plantpollinated.png")
         rand = random.randint(1, 3)
         master_location_list = [(self.rect.left, self.rect.top + 40),
                                 (self.rect.left, self.rect.top - 40),
