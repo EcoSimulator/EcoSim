@@ -21,35 +21,37 @@ class GameMenu():
 
     def run(self):
 
-        # set title caption
-        pygame.display.set_caption('Game Menu')
+        while True:
+            # set title caption
+            pygame.display.set_caption('Game Menu')
 
-        # Redraw the background
-        self.screen.fill(self.bg_color)
-        image_rect = Rect((0, 0), Utils.screen_size)        # background image
-        Utils.screen.blit(self.image, image_rect)
-        menu_on = True
+            # Redraw the background
+            self.screen.fill(self.bg_color)
+            image_rect = Rect((0, 0), Utils.screen_size)        # background image
+            Utils.screen.blit(self.image, image_rect)
+            menu_on = True
 
-        #blit scaled logo
-        logo = pygame.image.load("Resources/logo.png")
-        Utils.screen.blit(pygame.transform.scale(logo, (500, 500)), ((self.scr_width / 2) - 250, (self.scr_height / 2) - 300))
+            #blit scaled logo
+            logo = pygame.image.load("Resources/logo.png")
+            Utils.screen.blit(pygame.transform.scale(logo, (500, 500)), ((self.scr_width / 2) - 250, (self.scr_height / 2) - 300))
 
-        # make buttons
-        buttons = make_buttons(self)
-        while menu_on:
+            # make buttons
+            buttons = make_buttons(self)
+            while menu_on:
 
-            button_pressed = mouse_monitor(buttons)
+                button_pressed = mouse_monitor(buttons)
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        sys.exit()
+                # If button 0, "Start" calls WorldMap
+                # If button 1, "Quit" calls sys.exit()
+                if(button_pressed == 0):
+                    WorldMap.display_map()
+                    menu_on = False
+                elif (button_pressed == 1):
                     sys.exit()
-            # If button 0, "Start" calls WorldMap
-            # If button 1, "Quit" calls sys.exit()
-            if(button_pressed == 0):
-                WorldMap.display_map()
-            elif (button_pressed == 1):
-                sys.exit()
-            pygame.display.flip()
+                pygame.display.flip()
 
 # makes start & quit buttons
 def make_buttons(self):

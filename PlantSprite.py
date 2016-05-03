@@ -41,5 +41,12 @@ class PlantSprite(Sprite):
             WorldMap.spawn_sprite(new_location, "Resources/sprites/plant.png", self.type, True)
 
     def update(self):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    paused = True
+                    WorldMap.pause(paused)
         self.health -= 1
+        #if self.is_pollinated:
+           # self.image = pygame.image.load("Resources/sprites/plantpollinated.png")
         self.blit()

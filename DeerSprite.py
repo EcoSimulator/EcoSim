@@ -19,6 +19,11 @@ class DeerSprite(Sprite):
         WorldMap.deer_group.add_internal(self)
 
     def update(self):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    paused = True
+                    WorldMap.pause(paused)
         if self.health_monitor():
             return
         WorldMap.mouse_monitor(WorldMap.buttons_global)
