@@ -81,7 +81,7 @@ class Sprite(pygame.sprite.DirtySprite):
         sprite_list = pygame.sprite.spritecollide(self, group, False, pygame.sprite.collide_circle)
         if len(sprite_list) > 0:
             sprite = Utils.find_closest_sprite(self, sprite_list)
-            while sprite.type == "plant" and sprite.is_pollinated:
+            while self.type == "bees" and sprite.type == "plant" and sprite.is_pollinated:
                 if len(sprite_list) - 1 >= 0:
                     return False
                 sprite_list.remove(sprite)
