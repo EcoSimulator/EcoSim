@@ -7,6 +7,7 @@ import pygame
 class PlantGroup(pygame.sprite.Group):
 
     _spritegroup = "plant"
+    reproduction_rate = 0.78
 
     def __init__(self):
         pygame.sprite.Group.__init__(self)

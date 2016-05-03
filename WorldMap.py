@@ -14,6 +14,7 @@ from BeeGroup import BeeGroup
 from BeeSprite import BeeSprite
 import random
 import Utils
+import GameMenu
 
 deer_group = DeerGroup()
 wolf_group = WolfGroup()
@@ -24,6 +25,8 @@ buttons_global = []
 
 # displays the map, initializes terrain and buttons
 def display_map():
+
+
     # just a random size
     pygame.display.set_caption("Environment Simulator")     # write the caption
 
@@ -68,6 +71,12 @@ def display_map():
         if count > 1000:
             count = 0
 
+def startGameMenu():
+    # Start Game Menu
+    menu_items = ('Start', 'Quit')
+    pygame.display.set_caption('Game Menu')
+    gm = GameMenu.GameMenu(Utils.screen, menu_items)
+    gm.run()
 
 # makes all the buttons
 def make_buttons():
