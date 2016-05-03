@@ -28,12 +28,19 @@ class GameMenu():
             # Redraw the background
             self.screen.fill(self.bg_color)
             image_rect = Rect((0, 0), Utils.screen_size)        # background image
-            Utils.screen.blit(self.image, image_rect)
-            menu_on = True
+            #Utils.screen.blit(self.image, image_rect)
+            # blit scaled logo
+            # logo = pygame.image.load("Resources/logo.png")
+            # Utils.screen.blit(pygame.transform.scale(logo, (500, 500)), ((self.scr_width / 2) - 250, (self.scr_height / 2) - 300))
 
-            #blit scaled logo
-            logo = pygame.image.load("Resources/logo.png")
-            Utils.screen.blit(pygame.transform.scale(logo, (500, 500)), ((self.scr_width / 2) - 250, (self.scr_height / 2) - 300))
+            # blit scaled cover
+            cover = pygame.image.load("Resources/eco_sim_cover.png")
+            cover = pygame.transform.scale(cover, ((self.scr_width), self.scr_height))
+            cover_rect = Rect((0,0), Utils.screen_size)
+            Utils.screen.blit(cover, cover_rect)
+
+            #begin menu
+            menu_on = True
 
             # make buttons
             buttons = make_buttons(self)
