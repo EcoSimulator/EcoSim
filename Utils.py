@@ -4,7 +4,7 @@
 import pygame
 import math
 
-map = "Resources/terrain/map1.png"
+map = "Resources/terrain/map2.png"
 
 clean_screen = pygame.image.load(map)
 

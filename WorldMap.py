@@ -20,7 +20,6 @@ wolf_group = WolfGroup()
 plant_group = PlantGroup()
 bee_group = BeeGroup()
 buttons_global = []
-map = "Resources/terrain/map1.png"
 
 
 # displays the map, initializes terrain and buttons
@@ -29,7 +28,7 @@ def display_map():
     pygame.display.set_caption("Environment Simulator")     # write the caption
 
     # sets the terrain to an image
-    terrain = pygame.image.load(map)
+    terrain = pygame.image.load(Utils.map)
     terrain_rect = Rect((0, 0), Utils.screen_size)
 
     # blit the terrain image to the screen
