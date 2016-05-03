@@ -59,9 +59,10 @@ class GameMenu:
                                 pygame.display.set_mode(Utils.screen_size, pygame.FULLSCREEN)
                             else:
                                 pygame.display.set_mode(Utils.screen_size)
-                            Utils.screen.blit(pygame.image.load(Utils.map), Utils.screen.get_rect())
-                            Utils.screen.blit(pygame.transform.scale(logo, (500, 500)),
-                                              ((self.scr_width / 2) - 250, (self.scr_height / 2) - 300))
+                            cover = pygame.image.load("Resources/eco_sim_cover.png")
+                            cover = pygame.transform.scale(cover, (self.scr_width, self.scr_height))
+                            cover_rect = Rect((0, 0), Utils.screen_size)
+                            Utils.screen.blit(cover, cover_rect)
                             pygame.display.flip()
                 # If button 0, "Start" calls WorldMap
                 # If button 1, "Quit" calls sys.exit()
