@@ -23,6 +23,7 @@ bee_group = BeeGroup()
 buttons_global = []
 return_to_menu = False
 
+
 # displays the map, initializes terrain and buttons
 def display_map():
     # return to main menu
@@ -78,6 +79,7 @@ def display_map():
         if count > 1000:
             count = 0
 
+
 def empty_all_groups():
     global deer_group, wolf_group, plant_group, bee_group
     deer_group = DeerGroup()
@@ -85,12 +87,14 @@ def empty_all_groups():
     plant_group = PlantGroup()
     bee_group = BeeGroup()
 
+
 def startGameMenu():
     # Start Game Menu
     menu_items = ('Start', 'Quit')
     pygame.display.set_caption('Game Menu')
     gm = GameMenu.GameMenu(Utils.screen, menu_items)
     gm.run()
+
 
 # makes all the buttons
 def make_buttons():
@@ -264,13 +268,14 @@ def reproduce(count, first_generation=False):
                 display_population_count(deer_group, 0)     # display new deer count
 
         if len(plant_group) > 0 or first_generation:
-            rand_location = (random.randint(buffer, Utils.screen.get_rect().right - buffer),
-                             random.randint(buffer, Utils.screen.get_rect().bottom - buffer))
-            while not Utils.rect_within_screen(rand_location):
-                rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
-                                 random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
-            spawn_sprite(rand_location, "Resources/sprites/plant.png", "plant")
-            display_population_count(plant_group, 2)
+            for num in range(0, 2):
+                rand_location = (random.randint(buffer, Utils.screen.get_rect().right - buffer),
+                                 random.randint(buffer, Utils.screen.get_rect().bottom - buffer))
+                while not Utils.rect_within_screen(rand_location):
+                    rand_location = (random.randrange(buffer, Utils.screen.get_rect().right - buffer),
+                                     random.randrange(buffer, Utils.screen.get_rect().bottom - buffer))
+                spawn_sprite(rand_location, "Resources/sprites/plant.png", "plant")
+                display_population_count(plant_group, 2)
 
         if len(bee_group) > 0 or first_generation:
             rand_location = (random.randint(buffer, Utils.screen.get_rect().right - buffer),
