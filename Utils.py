@@ -10,7 +10,7 @@ clean_screen = pygame.image.load(map)
 
 screen_size = 1280, 720
 
-screen = pygame.display.set_mode(screen_size)#, pygame.FULLSCREEN)  # creates the screen, add in pygame.FULLSCREEN to fullscreen
+screen = pygame.display.set_mode(screen_size, pygame.FULLSCREEN)  # creates the screen, add in pygame.FULLSCREEN to fullscreen
 
 
 def output_message(screen, message):
