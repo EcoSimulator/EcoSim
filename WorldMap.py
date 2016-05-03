@@ -332,21 +332,34 @@ def pause(paused):
 
 
 def make_pause_buttons():
-    center_x = Utils.screen_size[0]/2
-    center_y = Utils.screen_size[1]/2
+    center_x = Utils.screen.get_rect().width / 2
+    center_y = Utils.screen.get_rect().height / 2
     buttons = []
 
     paused_label = pygame.image.load("Resources/buttons/paused.png")
-    paused_label_rect = Rect((center_x-116, center_y-115), (111, 21))
+    paused_label_rect = Rect((center_x-116, center_y-115), (216, 36))
     resume_button = pygame.image.load("Resources/buttons/resumenormal.png")
     resume_button_rect = Rect((center_x-75, center_y-50), (129, 39))
     mainmenu_button = pygame.image.load("Resources/buttons/mainmenunormal.png")
-    mainmenu_button_rect = Rect((center_x - 116, center_y -10), (129, 39))
+    mainmenu_button_rect = Rect((center_x - 116, center_y -10), (201, 39))
+    fullscreen_botton = pygame.image.load("Resources/buttons/fullscreennormal.png")
+    fullscreen_botton_rect = Rect((center_x - 147, center_y - 50), (201, 39))
     quit_button = pygame.image.load("Resources/buttons/quitnormal.png")
     quit_button_rect = Rect((center_x-75, center_y+32), (129, 39))
 
+    paused_label_rect.centerx = center_x
+    resume_button_rect.top = paused_label_rect.bottom + 10
+    resume_button_rect.centerx = center_x
+    mainmenu_button_rect.top = resume_button_rect.bottom + 10
+    mainmenu_button_rect.centerx = center_x
+    fullscreen_botton_rect.top = mainmenu_button_rect.bottom + 10
+    fullscreen_botton_rect.centerx = center_x
+    quit_button_rect.top = fullscreen_botton_rect.bottom + 10
+    quit_button_rect.centerx = center_x
+
     buttons.append((resume_button, resume_button_rect))
     buttons.append((mainmenu_button, mainmenu_button_rect))
+    buttons.append((fullscreen_botton, fullscreen_botton_rect))
     buttons.append((quit_button, quit_button_rect))
 
     Utils.screen.blit(paused_label, paused_label_rect)
@@ -382,8 +395,21 @@ def pause_menu_monitor(buttons):
                   if event.type == MOUSEBUTTONDOWN:
                         return_to_menu = True
                         return resume
-            # button[2] = quit
+            # button[2] = fullscreen
             elif buttons.index(button) == 2:
+                fullscreen_button = pygame.image.load("Resources/buttons/fullscreenselected.png")
+                Utils.screen.blit(fullscreen_button, button[1])
+                pygame.display.flip()
+                for event in pygame.event.get():
+                    if event.type == MOUSEBUTTONDOWN:
+                        if not Utils.screen.get_flags() == FULLSCREEN:
+                            pygame.display.set_mode(Utils.screen_size, pygame.FULLSCREEN)
+                        else:
+                            pygame.display.set_mode(Utils.screen_size)
+                        Utils.screen.blit(pygame.image.load(Utils.map), Utils.screen.get_rect())
+                        pygame.display.flip()
+            # button[3] = quit
+            elif buttons.index(button) == 3:
                 quit_button = pygame.image.load("Resources/buttons/quitselected.png")
                 Utils.screen.blit(quit_button, button[1])
                 pygame.display.flip()

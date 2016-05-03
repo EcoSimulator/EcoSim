@@ -1,5 +1,6 @@
 # Jasmine N. Oliveira: 05/02/2016
-#!/usr/bin/python
+# !/usr/bin/python
+
 
 import pygame
 import Utils
@@ -7,9 +8,10 @@ import sys
 import WorldMap
 from pygame.locals import *
 
-class GameMenu():
+
+class GameMenu:
     def __init__(self, screen, bg_color=(0,0,0), font=None, font_size=30,
-                    font_color=(255, 255, 255)):
+                 font_color=(255, 255, 255)):
         self.screen = screen
         self.scr_width = self.screen.get_rect().width
         self.scr_height = self.screen.get_rect().height
@@ -44,6 +46,16 @@ class GameMenu():
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         sys.exit()
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_SPACE:
+                            if not Utils.screen.get_flags() == FULLSCREEN:
+                                pygame.display.set_mode(Utils.screen_size, pygame.FULLSCREEN)
+                            else:
+                                pygame.display.set_mode(Utils.screen_size)
+                            Utils.screen.blit(pygame.image.load(Utils.map), Utils.screen.get_rect())
+                            Utils.screen.blit(pygame.transform.scale(logo, (500, 500)),
+                                              ((self.scr_width / 2) - 250, (self.scr_height / 2) - 300))
+                            pygame.display.flip()
                 # If button 0, "Start" calls WorldMap
                 # If button 1, "Quit" calls sys.exit()
                 if(button_pressed == 0):
