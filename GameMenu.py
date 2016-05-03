@@ -34,22 +34,21 @@ class GameMenu():
         logo = pygame.image.load("Resources/logo.png")
         Utils.screen.blit(pygame.transform.scale(logo, (500, 500)), ((self.scr_width / 2) - 250, (self.scr_height / 2) - 300))
 
-
+        # make buttons
         buttons = make_buttons(self)
         while menu_on:
+
             button_pressed = mouse_monitor(buttons)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
-
             # If button 0, "Start" calls WorldMap
             # If button 1, "Quit" calls sys.exit()
             if(button_pressed == 0):
                 WorldMap.display_map()
             elif (button_pressed == 1):
                 sys.exit()
-
             pygame.display.flip()
 
 # makes start & quit buttons
@@ -58,11 +57,11 @@ def make_buttons(self):
 
     # make a start button, Rect creates the rectangle to draw the button in
     start_button = pygame.image.load("Resources/buttons/startnormal.png")
-    start_button_rect = Rect(((self.scr_width / 2)-200, (self.scr_height / 2)+210), (40, 39))
+    start_button_rect = Rect(((self.scr_width / 2)-200, (self.scr_height / 2)+210), (200, 100))
 
     # make a quit button, Rect creates the rectangle to draw the button in
     quit_button = pygame.image.load("Resources/buttons/quitnormal.png")
-    quit_button_rect = Rect(((self.scr_width / 2) + 50, (self.scr_height / 2)+210), (40, 39))
+    quit_button_rect = Rect(((self.scr_width / 2) + 50, (self.scr_height / 2)+210), (200, 100))
 
     # add buttons to the list
     buttons.append((start_button, start_button_rect))
@@ -80,6 +79,7 @@ def make_buttons(self):
 def mouse_monitor(buttons):
     mouse = pygame.mouse    # our mouse from now on
     mouse_pos = mouse.get_pos()     # the position of the mouse
+    option=-1
     for button in buttons:
         # while the mouse is within the bounds of any button in the button list
         while (button[1].left < mouse_pos[0] < button[1].right and
@@ -93,8 +93,8 @@ def mouse_monitor(buttons):
                 # waits for click to select deer button
                 for event in pygame.event.get():
                     if event.type == MOUSEBUTTONDOWN:
-                        return 0;
-            # button[1] = quit
+                        option=0
+                        # button[1] = quit
             elif buttons.index(button) == 1:
                 # change to highlighted wolf button
                 stop_button = pygame.image.load("Resources/buttons/quitselected.png")
@@ -103,7 +103,7 @@ def mouse_monitor(buttons):
                 # waits for click to select wolf button
                 for event in pygame.event.get():
                     if event.type == MOUSEBUTTONDOWN:
-                        return 1;
+                        option=1
             # update position for while loop
             mouse_pos = mouse.get_pos()
 
@@ -111,6 +111,7 @@ def mouse_monitor(buttons):
     for button in buttons:
         Utils.screen.blit(button[0], button[1])
     pygame.display.flip()
+    return option;
 
 def startGameMenu():
     # Start Game Menu
