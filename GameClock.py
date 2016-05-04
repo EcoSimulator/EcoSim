@@ -1,3 +1,6 @@
+# Jasmine Oliveira
+# 4/27/2016
+
 import time
 import threading
 import pygame, sys
