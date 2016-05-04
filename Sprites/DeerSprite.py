@@ -1,12 +1,13 @@
 # Matthew Severance, 4/18/2016
 
-from Sprite import Sprite
-import WorldMap
-import pygame
-import random
-import WolfSprite
 import math
+import random
+
+import pygame
+
+import Global
 import Utils
+from Sprite import Sprite
 
 
 class DeerSprite(Sprite):
@@ -16,25 +17,20 @@ class DeerSprite(Sprite):
         self.speed = 24
         self.radius = 100
         self.runningAway = False
-        WorldMap.deer_group.add_internal(self)
+        Global.deer_group.add_internal(self)
 
     def update(self):
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    paused = True
-                    WorldMap.pause(paused)
+        Sprite.button_ops(self)
         if self.health_monitor():
             return
-        WorldMap.mouse_monitor(WorldMap.buttons_global)
         # for all wolves in collide circle
         if not self.flee():
             self.runningAway = False
-            if not Sprite.hunt(self, WorldMap.plant_group):
+            if not Sprite.hunt(self, Global.plant_group):
                 Sprite.update(self)
 
     def flee(self):
-        sprite_list = pygame.sprite.spritecollide(self, WorldMap.wolf_group, False, pygame.sprite.collide_circle)
+        sprite_list = pygame.sprite.spritecollide(self, Global.wolf_group, False, pygame.sprite.collide_circle)
         if len(sprite_list) > 0:
             wolf = Utils.find_closest_sprite(self, sprite_list)
             direction_x = wolf.rect.centerx
@@ -85,7 +81,7 @@ class DeerSprite(Sprite):
             dirtyrect = Utils.clean_screen.subsurface(self.rect).copy()
             self.screen.blit(dirtyrect, self.rect)
             pygame.display.flip()
-            WorldMap.deer_group.remove_internal(self)
+            Global.deer_group.remove_internal(self)
             return True
 
     # def make_good_move_flee(self, x_offset, y_offset, wolf):

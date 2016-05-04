@@ -1,9 +1,10 @@
 # Matthew Severance 5/2/2016
 
-from Sprite import Sprite
-import WorldMap
 import pygame
+
+import Global
 import Utils
+from Sprite import Sprite
 
 
 class BeeSprite(Sprite):
@@ -12,18 +13,13 @@ class BeeSprite(Sprite):
         Sprite.__init__(self, pygame.image.load("Resources/sprites/bees.png"), image_rect, "bees")
         self.speed = 15
         self.radius = 250
-        WorldMap.bee_group.add_internal(self)
+        Global.bee_group.add_internal(self)
 
     def update(self):
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    paused = True
-                    WorldMap.pause(paused)
+        Sprite.button_ops(self)
         if self.health_monitor():
             return
-        WorldMap.mouse_monitor(WorldMap.buttons_global)
-        if not Sprite.hunt(self, WorldMap.plant_group):
+        if not Sprite.hunt(self, Global.plant_group):
             Sprite.update(self)
 
     def health_monitor(self):
@@ -32,5 +28,5 @@ class BeeSprite(Sprite):
             dirtyrect = Utils.clean_screen.subsurface(self.rect).copy()
             self.screen.blit(dirtyrect, self.rect)
             pygame.display.flip()
-            WorldMap.bee_group.remove_internal(self)
+            Global.bee_group.remove_internal(self)
             return True

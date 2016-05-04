@@ -1,11 +1,8 @@
 # Matthew Severance, 4/18/2016
 
-import WorldMap
-import GameMenu
-import Utils
-from DeerGroup import DeerGroup
-from WolfGroup import WolfGroup
 import pygame
+import Utils
+from Menus import GameMenu
 
 # the main driver file, s
 pygame.init()

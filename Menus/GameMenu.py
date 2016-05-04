@@ -22,22 +22,16 @@ class GameMenu:
         self.font_color = font_color
 
     def run(self):
-
         while True:
             # set title caption
             pygame.display.set_caption('Game Menu')
 
             # Redraw the background
             self.screen.fill(self.bg_color)
-            image_rect = Rect((0, 0), Utils.screen_size)        # background image
-            #Utils.screen.blit(self.image, image_rect)
-            # blit scaled logo
-            # logo = pygame.image.load("Resources/logo.png")
-            # Utils.screen.blit(pygame.transform.scale(logo, (500, 500)), ((self.scr_width / 2) - 250, (self.scr_height / 2) - 300))
 
             # blit scaled cover
             cover = pygame.image.load("Resources/eco_sim_cover.png")
-            cover = pygame.transform.scale(cover, ((self.scr_width), self.scr_height))
+            cover = pygame.transform.scale(cover, (self.scr_width, self.scr_height))
             cover_rect = Rect((0,0), Utils.screen_size)
             Utils.screen.blit(cover, cover_rect)
 
@@ -66,12 +60,13 @@ class GameMenu:
                             pygame.display.flip()
                 # If button 0, "Start" calls WorldMap
                 # If button 1, "Quit" calls sys.exit()
-                if(button_pressed == 0):
+                if button_pressed == 0:
                     WorldMap.display_map()
                     menu_on = False
-                elif (button_pressed == 1):
+                elif button_pressed == 1:
                     sys.exit()
                 pygame.display.flip()
+
 
 # makes start & quit buttons
 def make_buttons(self):
@@ -85,6 +80,8 @@ def make_buttons(self):
     quit_button = pygame.image.load("Resources/buttons/quitnormal.png")
     quit_button_rect = Rect(((self.scr_width / 2) + 50, (self.scr_height / 2)+210), (200, 100))
 
+    start_button_rect.right = Utils.screen.get_rect().centerx - 10
+    quit_button_rect.left = Utils.screen.get_rect().centerx + 10
     # add buttons to the list
     buttons.append((start_button, start_button_rect))
     buttons.append((quit_button, quit_button_rect))
@@ -97,6 +94,7 @@ def make_buttons(self):
     pygame.display.flip()
 
     return buttons
+
 
 def mouse_monitor(buttons):
     mouse = pygame.mouse    # our mouse from now on
@@ -134,6 +132,7 @@ def mouse_monitor(buttons):
         Utils.screen.blit(button[0], button[1])
     pygame.display.flip()
     return option;
+
 
 def startGameMenu():
     # Start Game Menu

@@ -1,10 +1,13 @@
 # Matthew Severance, 4/18/2016
 
 
-import pygame
-import random
 import math
+import random
+import sys
+import pygame
 import Utils
+from Menus import Pause
+
 
 class Sprite(pygame.sprite.DirtySprite):
 
@@ -122,3 +125,13 @@ class Sprite(pygame.sprite.DirtySprite):
             return True
         else:
             return False
+
+    def button_ops(self):
+       # Mouse.mouse_monitor(Global.buttons_global)
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    paused = True
+                    Pause.pause(paused)
+            if event.type == pygame.QUIT:
+                sys.exit()
