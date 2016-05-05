@@ -1,14 +1,12 @@
+__author__ = "Justin Tribuna"
+
 import pygame
 from pygame.locals import *
 import Utils
 import sys
 import Global
 
-"""
-The Pause menu
-"""
 
-# pause menu stuff, may want to put all of this in its own file
 def pause(paused):
     """
     Entry point to pause menu

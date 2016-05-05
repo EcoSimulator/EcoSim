@@ -1,0 +1,33 @@
+Help on module Menus.Pause in Menus:
+
+NAME
+    Menus.Pause
+
+FILE
+    EnvironmentSimulationPython/Menus/Pause.py
+
+FUNCTIONS
+    make_pause_buttons()
+        Creates the list of buttons in the pause menu and blits them to the screen
+        0: Resume
+        1: Main Menu
+        2: Full Screen (Toggle)
+        3: Quit
+        :param self: GameMenu
+        :return: the list of buttons
+    
+    pause(paused)
+        Entry point to pause menu
+        Called with ESC key from the running game
+        :param paused: boolean indicating paused state
+        :return: void
+    
+    pause_menu_monitor(buttons)
+        Watches the mouse to detect hovering over and selection of buttons
+        :param buttons: the buttons to watch
+        :return: option (which buttons selected)
+
+AUTHOR
+    Justin Tribuna
+
+

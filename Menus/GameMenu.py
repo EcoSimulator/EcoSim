@@ -1,12 +1,11 @@
-# Jasmine N. Oliveira: 05/02/2016
-# !/usr/bin/python
-
-
 import pygame
 import Utils
 import sys
 import WorldMap
 from pygame.locals import *
+
+__author__ = "Jasmine Oliveira"
+__date__ = "05/02/2016"
 
 
 class GameMenu:

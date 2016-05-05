@@ -1,3 +1,5 @@
+__author__ = "Matthew Severance"
+
 import pygame
 from pygame.locals import *
 import Utils

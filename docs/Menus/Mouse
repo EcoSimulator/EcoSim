@@ -1,0 +1,30 @@
+Help on module Menus.Mouse in Menus:
+
+NAME
+    Menus.Mouse
+
+FILE
+    EnvironmentSimulationPython/Menus/Mouse.py
+
+FUNCTIONS
+    buffer_mouse_pos(mouse_pos)
+        Buffers the mouse to prevent the user from placing sprites off-screen
+        :param mouse_pos: the position of the last mouse press
+        :return: the offset mouse position
+    
+    mouse_monitor(buttons)
+        Watches the mouse to detect hovering over and selection of buttons
+        :param buttons: the buttons to watch
+        :return: option (which buttons selected)
+    
+    place_image(mouse, image_name, animal_name)
+        Actually places the sprite at the (possibly buffered) mouse position
+        :param mouse: pygame mouse, used to get position
+        :param image_name: name of animal image
+        :param animal_name: actual animal name
+        :return: void
+
+AUTHOR
+    Matthew Severance
+
+

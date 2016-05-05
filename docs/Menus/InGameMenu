@@ -1,0 +1,21 @@
+Help on module Menus.InGameMenu in Menus:
+
+NAME
+    Menus.InGameMenu
+
+FILE
+    EnvironmentSimulationPython/Menus/InGameMenu.py
+
+FUNCTIONS
+    make_buttons()
+        Creates and displays the list of buttons present while the game is running
+        0: Deer
+        1: Wolf
+        2: Plant
+        3: Bee
+        :return: the list of buttons
+
+AUTHOR
+    Matthew Severance
+
+

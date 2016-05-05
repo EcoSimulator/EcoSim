@@ -1,2 +1,54 @@
-problem in Menus.GameMenu - <type 'exceptions.ImportError'>: No module named pygame
+Help on module Menus.GameMenu in Menus:
+
+NAME
+    Menus.GameMenu
+
+FILE
+    EnvironmentSimulationPython/Menus/GameMenu.py
+
+CLASSES
+    GameMenu
+    
+    class GameMenu
+     |  Defines and runs the main menu
+     |  Displayed when the application starts
+     |  Calls to the WorldMap to run the game
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, screen, bg_color=(0, 0, 0), font=None, font_size=30, font_color=(255, 255, 255))
+     |      Initializes the GameMenu
+     |      :param screen: the screen to draw on
+     |      :param bg_color: background color, default white
+     |      :param font: default None
+     |      :param font_size: default 30
+     |      :param font_color: default black
+     |  
+     |  run(self)
+     |      Runs the main menu until the user selects either to begin the game or to quit
+     |      :return: void
+
+FUNCTIONS
+    make_buttons(self)
+        Creates the list of buttons in the menu and blits them to the screen
+        0: Start
+        1: Quit
+        :param self: GameMenu
+        :return: the list of buttons
+    
+    mouse_monitor(buttons)
+        Watches the mouse to detect hovering over and selection of buttons
+        :param buttons: the buttons to watch
+        :return: option (which buttons selected)
+    
+    startGameMenu()
+        Entry point to the game menu. Call to run main menu.
+        :return: void
+
+DATE
+    05/02/2016
+
+AUTHOR
+    Jasmine Oliveira
+
 

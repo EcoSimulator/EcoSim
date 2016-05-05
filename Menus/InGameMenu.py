@@ -2,12 +2,9 @@ import pygame
 from pygame.locals import *
 import Utils
 
-"""
-Menu displayed during the running of the game
-"""
+__author__ = "Matthew Severance"
 
 
-# makes all the buttons
 def make_buttons():
     """
     Creates and displays the list of buttons present while the game is running
