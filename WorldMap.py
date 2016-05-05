@@ -37,7 +37,6 @@ def display_map():
     count = 0
     SpriteProduction.reproduce(count, True)
     while True:
-
         if Global.return_to_menu:
             empty_all_groups()
             return

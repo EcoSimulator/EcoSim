@@ -2,9 +2,21 @@ import pygame
 from pygame.locals import *
 import Utils
 
+"""
+Menu displayed during the running of the game
+"""
+
 
 # makes all the buttons
 def make_buttons():
+    """
+    Creates and displays the list of buttons present while the game is running
+    0: Deer
+    1: Wolf
+    2: Plant
+    3: Bee
+    :return: the list of buttons
+    """
     buttons = []
 
     # make a deer button, Rect creates the rectangle to draw the button in

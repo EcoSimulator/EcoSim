@@ -1,0 +1,13 @@
+Help on package Menus:
+
+NAME
+    Menus - Contains the files concerned with creating and using menus
+
+FILE
+    /cygdrive/c/Users/MSSev_000/PycharmProjects/EnvironmentSimulator/Menus/__init__.py
+
+PACKAGE CONTENTS
+    GameMenu
+    InGameMenu
+    Mouse
+    Pause

@@ -10,8 +10,21 @@ from pygame.locals import *
 
 
 class GameMenu:
-    def __init__(self, screen, bg_color=(0,0,0), font=None, font_size=30,
+    """
+    Defines and runs the main menu
+    Displayed when the application starts
+    Calls to the WorldMap to run the game
+    """
+    def __init__(self, screen, bg_color=(0, 0, 0), font=None, font_size=30,
                  font_color=(255, 255, 255)):
+        """
+        Initializes the GameMenu
+        :param screen: the screen to draw on
+        :param bg_color: background color, default white
+        :param font: default None
+        :param font_size: default 30
+        :param font_color: default black
+        """
         self.screen = screen
         self.scr_width = self.screen.get_rect().width
         self.scr_height = self.screen.get_rect().height
@@ -22,6 +35,10 @@ class GameMenu:
         self.font_color = font_color
 
     def run(self):
+        """
+        Runs the main menu until the user selects either to begin the game or to quit
+        :return: void
+        """
         while True:
             # set title caption
             pygame.display.set_caption('Game Menu')
@@ -70,6 +87,13 @@ class GameMenu:
 
 # makes start & quit buttons
 def make_buttons(self):
+    """
+    Creates the list of buttons in the menu and blits them to the screen
+    0: Start
+    1: Quit
+    :param self: GameMenu
+    :return: the list of buttons
+    """
     buttons = []
 
     # make a start button, Rect creates the rectangle to draw the button in
@@ -97,6 +121,11 @@ def make_buttons(self):
 
 
 def mouse_monitor(buttons):
+    """
+    Watches the mouse to detect hovering over and selection of buttons
+    :param buttons: the buttons to watch
+    :return: option (which buttons selected)
+    """
     mouse = pygame.mouse    # our mouse from now on
     mouse_pos = mouse.get_pos()     # the position of the mouse
     option=-1
@@ -113,7 +142,7 @@ def mouse_monitor(buttons):
                 # waits for click to select deer button
                 for event in pygame.event.get():
                     if event.type == MOUSEBUTTONDOWN:
-                        option=0
+                        option = 0
                         # button[1] = quit
             elif buttons.index(button) == 1:
                 # change to highlighted wolf button
@@ -123,7 +152,7 @@ def mouse_monitor(buttons):
                 # waits for click to select wolf button
                 for event in pygame.event.get():
                     if event.type == MOUSEBUTTONDOWN:
-                        option=1
+                        option = 1
             # update position for while loop
             mouse_pos = mouse.get_pos()
 
@@ -131,10 +160,14 @@ def mouse_monitor(buttons):
     for button in buttons:
         Utils.screen.blit(button[0], button[1])
     pygame.display.flip()
-    return option;
+    return option
 
 
 def startGameMenu():
+    """
+    Entry point to the game menu. Call to run main menu.
+    :return: void
+    """
     # Start Game Menu
     pygame.display.set_caption('Game Menu')
     gm = GameMenu.GameMenu(Utils.screen)

@@ -4,8 +4,18 @@ import Utils
 import sys
 import Global
 
+"""
+The Pause menu
+"""
+
 # pause menu stuff, may want to put all of this in its own file
 def pause(paused):
+    """
+    Entry point to pause menu
+    Called with ESC key from the running game
+    :param paused: boolean indicating paused state
+    :return: void
+    """
     buttons = make_pause_buttons()
 
     while paused:
@@ -29,6 +39,15 @@ def pause(paused):
 
 
 def make_pause_buttons():
+    """
+    Creates the list of buttons in the pause menu and blits them to the screen
+    0: Resume
+    1: Main Menu
+    2: Full Screen (Toggle)
+    3: Quit
+    :param self: GameMenu
+    :return: the list of buttons
+    """
     center_x = Utils.screen.get_rect().width / 2
     center_y = Utils.screen.get_rect().height / 2
     buttons = []
@@ -67,6 +86,11 @@ def make_pause_buttons():
 
 
 def pause_menu_monitor(buttons):
+    """
+    Watches the mouse to detect hovering over and selection of buttons
+    :param buttons: the buttons to watch
+    :return: option (which buttons selected)
+    """
     global return_to_menu
     mouse = pygame.mouse    # our mouse from now on
     mouse_pos = mouse.get_pos()     # the position of the mouse

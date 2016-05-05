@@ -3,9 +3,17 @@ from pygame.locals import *
 import Utils
 from Sprites import SpriteProduction
 
+"""
+Mouse related functions for while the game is running
+"""
 
 # monitors mouse activity, mostly used for selecting buttons and placing animals now
 def mouse_monitor(buttons):
+    """
+    Watches the mouse to detect hovering over and selection of buttons
+    :param buttons: the buttons to watch
+    :return: option (which buttons selected)
+    """
     mouse = pygame.mouse    # our mouse from now on
     mouse_pos = mouse.get_pos()     # the position of the mouse
     for button in buttons:
@@ -60,6 +68,11 @@ def mouse_monitor(buttons):
 
 
 def buffer_mouse_pos(mouse_pos):
+    """
+    Buffers the mouse to prevent the user from placing sprites off-screen
+    :param mouse_pos: the position of the last mouse press
+    :return: the offset mouse position
+    """
     buffer = 50     # 5= pixel buffer
     if mouse_pos[0] <= buffer:  # left
         mouse_pos[0] += buffer
@@ -82,6 +95,13 @@ def buffer_mouse_pos(mouse_pos):
 
 # puts an image of an animal on screen at a mouse click
 def place_image(mouse, image_name, animal_name):
+    """
+    Actually places the sprite at the (possibly buffered) mouse position
+    :param mouse: pygame mouse, used to get position
+    :param image_name: name of animal image
+    :param animal_name: actual animal name
+    :return: void
+    """
     while True:  # waits forever, until user places animal
         for event in pygame.event.get():
             if event.type == MOUSEBUTTONDOWN:
