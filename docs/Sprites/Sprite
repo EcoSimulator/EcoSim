@@ -1,0 +1,123 @@
+Help on module Sprites.Sprite in Sprites:
+
+NAME
+    Sprites.Sprite
+
+FILE
+    EnvironmentSimulationPython/Sprites/Sprite.py
+
+CLASSES
+    pygame.sprite.DirtySprite(pygame.sprite.Sprite)
+        Sprite
+    
+    class Sprite(pygame.sprite.DirtySprite)
+     |  Default sprite class
+     |  All (move-able) sprites should inherit from this
+     |  
+     |  Method resolution order:
+     |      Sprite
+     |      pygame.sprite.DirtySprite
+     |      pygame.sprite.Sprite
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, image, rect, type)
+     |      Initializes a blank sprite
+     |      Should not be called on its own
+     |          only as super in another __init__
+     |      Sets health = 100 (max-health, once implemented)
+     |  
+     |  add_internal(self, group)
+     |  
+     |  blit(self)
+     |  
+     |  button_ops(self)
+     |      Checks for pause menu call with ESC key
+     |  
+     |  hunt(self, group)
+     |      Hunt function for sprites
+     |      Distinguishes between different species and their appropriate prey
+     |      Sprite travels in a straight line towards prey
+     |          Until it catches it or the prey escapes
+     |  
+     |  make_good_move(self, x_offset, y_offset)
+     |      Called after an attempt by a sprite to move off screen
+     |      Returns an appropriate move depending on what edge
+     |          the sprite is attempting to move off of
+     |  
+     |  move_is_within_surface(self, x_offset, y_offset)
+     |      Checks whether a sprite's move keeps it within the bounds of the screen
+     |  
+     |  remove_internal(self, group)
+     |  
+     |  update(self)
+     |      Default sprite update
+     |      Simply makes a random move, staying withing the screen
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pygame.sprite.DirtySprite:
+     |  
+     |  __repr__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pygame.sprite.DirtySprite:
+     |  
+     |  visible
+     |      you can make this sprite disappear without removing it from the group,
+     |      values 0 for invisible and 1 for visible
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pygame.sprite.Sprite:
+     |  
+     |  add(self, *groups)
+     |      add the sprite to groups
+     |      Sprite.add(*groups): return None
+     |      
+     |      Any number of Group instances can be passed as arguments. The 
+     |      Sprite will be added to the Groups it is not already a member of.
+     |  
+     |  alive(self)
+     |      does the sprite belong to any groups
+     |      Sprite.alive(): return bool
+     |      
+     |      Returns True when the Sprite belongs to one or more Groups.
+     |  
+     |  groups(self)
+     |      list of Groups that contain this Sprite
+     |      Sprite.groups(): return group_list
+     |      
+     |      Return a list of all the Groups that contain this Sprite.
+     |  
+     |  kill(self)
+     |      remove the Sprite from all Groups
+     |      Sprite.kill(): return None
+     |      
+     |      The Sprite is removed from all the Groups that contain it. This won't
+     |      change anything about the state of the Sprite. It is possible to continue
+     |      to use the Sprite after this method has been called, including adding it
+     |      to Groups.
+     |  
+     |  remove(self, *groups)
+     |      remove the sprite from groups
+     |      Sprite.remove(*groups): return None
+     |      
+     |      Any number of Group instances can be passed as arguments. The Sprite will
+     |      be removed from the Groups it is currently a member of.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pygame.sprite.Sprite:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+AUTHOR
+    Matthew Severance
+
+DATE
+    4/18/2016
+
+

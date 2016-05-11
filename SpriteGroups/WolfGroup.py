@@ -1,11 +1,13 @@
-# Matthew Severance, 4/18/2016
-
-
 import pygame
+
+__author__ = "Matthew Severance"
 
 
 class WolfGroup(pygame.sprite.Group):
-
+    """
+    Group for wolf sprites
+    Group Name = "wolf"
+    """
     _spritegroup = "wolf"
 
     def __init__(self):

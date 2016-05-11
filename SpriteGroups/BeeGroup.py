@@ -3,9 +3,14 @@
 
 import pygame
 
+__author__ = "Matthew Severance"
+
 
 class BeeGroup(pygame.sprite.Group):
-
+    """
+    Group for bee sprites
+    Group Name = "bees"
+    """
     _spritegroup = "bees"
 
     def __init__(self):

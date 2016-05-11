@@ -1,8 +1,10 @@
-import random
+"""
+Contains all the functions pertinent to producing sprites and monitoring their overall populations
+"""
 
+import random
 import pygame
 from pygame.locals import *
-
 import Global
 import Utils
 from Sprites.BeeSprite import BeeSprite
@@ -11,8 +13,14 @@ from Sprites.PlantSprite import PlantSprite
 from Sprites.Sprite import Sprite
 from Sprites.WolfSprite import WolfSprite
 
+__author__ = "Matthew Severance and Jasmine Oliveira"
+
 
 def spawn_sprite(location, image_name, animal_name, should_be_pollinated=False):
+    """
+    Spawns given sprite at given location
+    should_be_pollinated is override-able to produce pollinated plant
+    """
     image = pygame.image.load(image_name)
     image_rect = Rect(location, (24, 24))
     if should_be_pollinated:
@@ -33,6 +41,10 @@ def spawn_sprite(location, image_name, animal_name, should_be_pollinated=False):
 
 # display population count of a sprite group, near its button (given button index in buttons_global
 def display_population_count(sprite_group, button_index):
+    """
+    Display population count of a sprite grou
+    Displayed near its button (given in buttons_global)
+    """
     # initialize font; must be called after 'pygame.init()' to avoid 'Font not Initialized' error
     font = pygame.font.SysFont("monospace", 28, True, False)
 
@@ -54,6 +66,11 @@ def display_population_count(sprite_group, button_index):
 
 
 def reproduce(count, first_generation=False):
+    """
+    Reproduces all the sprites
+    Very basic right now, just a few randomly placed each call
+    Will develop more sophisticated algorithms
+    """
     buffer = 150     # 50 pixel buffer
     if count % 10 == 0:
         if len(Global.wolf_group) > 0 or first_generation:
@@ -96,6 +113,10 @@ def reproduce(count, first_generation=False):
 
 
 def create_sprite(location, image_name, animal_name):
+    """
+    Creates a sprite, button doesn't blit to the screen
+    Useful for creating dummy sprites
+    """
     image = pygame.image.load(image_name)
     image_rect = Rect(location, (24, 24))
     new_sprite = Sprite(image, image_rect, animal_name)

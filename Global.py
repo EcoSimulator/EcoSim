@@ -3,6 +3,10 @@ from SpriteGroups.DeerGroup import DeerGroup
 from SpriteGroups.PlantGroup import PlantGroup
 from SpriteGroups.WolfGroup import WolfGroup
 
+"""
+Global variables necessary in a number of places
+"""
+
 deer_group = DeerGroup()
 wolf_group = WolfGroup()
 plant_group = PlantGroup()

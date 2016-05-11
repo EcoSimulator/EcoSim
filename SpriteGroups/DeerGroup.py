@@ -3,9 +3,14 @@
 
 import pygame
 
+__author__ = "Matthew Severance"
+
 
 class DeerGroup(pygame.sprite.Group):
-
+    """
+    Group for deer sprites
+    Group Name = "deer"
+    """
     _spritegroup = "deer"
 
     def __init__(self):

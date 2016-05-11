@@ -1,9 +1,11 @@
-# Matthew Severance, 4/18/2016
-
 import pygame
 import Utils
 from Menus import GameMenu
-
+"""
+Main driver file
+Call this to run program
+Calls pygame init, then gamemenu
+"""
 # the main driver file, s
 pygame.init()
 

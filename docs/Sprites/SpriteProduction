@@ -1,0 +1,30 @@
+Help on module Sprites.SpriteProduction in Sprites:
+
+NAME
+    Sprites.SpriteProduction - Contains all the functions pertinent to producing sprites and monitoring their overall populations
+
+FILE
+    EnvironmentSimulationPython/Sprites/SpriteProduction.py
+
+FUNCTIONS
+    create_sprite(location, image_name, animal_name)
+        Creates a sprite, button doesn't blit to the screen
+        Useful for creating dummy sprites
+    
+    display_population_count(sprite_group, button_index)
+        Display population count of a sprite grou
+        Displayed near its button (given in buttons_global)
+    
+    reproduce(count, first_generation=False)
+        Reproduces all the sprites
+        Very basic right now, just a few randomly placed each call
+        Will develop more sophisticated algorithms
+    
+    spawn_sprite(location, image_name, animal_name, should_be_pollinated=False)
+        Spawns given sprite at given location
+        should_be_pollinated is override-able to produce pollinated plant
+
+AUTHOR
+    Matthew Severance and Jasmine Oliveira
+
+

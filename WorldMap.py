@@ -1,5 +1,6 @@
-# Matthew Severance, 4/18/5016
-
+"""
+Main class that runs the world map
+"""
 import sys
 
 import pygame
@@ -14,9 +15,20 @@ from SpriteGroups.PlantGroup import PlantGroup
 from SpriteGroups.WolfGroup import WolfGroup
 from Sprites import SpriteProduction
 
+__author__ = "Matthew Severance"
+
 
 # displays the map, initializes terrain and buttons
 def display_map():
+    """
+    Displays the main map
+    Contains the game loop that:
+        Calls all sprite group updates
+        Reproduces all sprites
+        Display populations
+        Allows user to place sprites
+        Calls the pause menu
+    """
     # return to main menu
     Global.return_to_menu = False
 
@@ -69,6 +81,9 @@ def display_map():
 
 
 def empty_all_groups():
+    """
+    Empties all sprites from all groups
+    """
     Global.deer_group = DeerGroup()
     Global.wolf_group = WolfGroup()
     Global.plant_group = PlantGroup()

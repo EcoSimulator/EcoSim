@@ -1,0 +1,24 @@
+Help on module Utils:
+
+NAME
+    Utils
+
+FILE
+    EnvironmentSimulationPython/Utils.py - A bunch of random odds and ends that don't have a home elsewhere
+
+FUNCTIONS
+    distance(x_1, y_1, x_2, y_2)
+    
+    find_closest_sprite(target, sprite_list)
+    
+    output_message(screen, message)
+    
+    rect_within_screen(loc)
+
+DATA
+    clean_screen = <Surface(1280x720x24 SW)>
+    map = 'Resources/terrain/map2.png'
+    screen = <Surface(1280x720x32 SW)>
+    screen_size = (1280, 720)
+
+

@@ -1,11 +1,13 @@
-# Matthew Severance, 4/18/2016
-
-
 import pygame
+
+__author__ = "Matthew Severance"
 
 
 class PlantGroup(pygame.sprite.Group):
-
+    """
+    Group for plant sprites
+    Group Name = "plant"
+    """
     _spritegroup = "plant"
     reproduction_rate = 0.78
 

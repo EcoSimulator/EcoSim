@@ -1,0 +1,128 @@
+Help on module SpriteGroups.DeerGroup in SpriteGroups:
+
+NAME
+    SpriteGroups.DeerGroup
+
+FILE
+    EnvironmentSimulationPython/SpriteGroups/DeerGroup.py
+
+CLASSES
+    pygame.sprite.Group(pygame.sprite.AbstractGroup)
+        DeerGroup
+    
+    class DeerGroup(pygame.sprite.Group)
+     |  Group for deer sprites
+     |  Group Name = "deer"
+     |  
+     |  Method resolution order:
+     |      DeerGroup
+     |      pygame.sprite.Group
+     |      pygame.sprite.AbstractGroup
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+     |  
+     |  add_internal(self, sprite)
+     |  
+     |  remove_internal(self, sprite)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pygame.sprite.AbstractGroup:
+     |  
+     |  __contains__(self, sprite)
+     |  
+     |  __iter__(self)
+     |  
+     |  __len__(self)
+     |      len(group)
+     |      number of sprites in group
+     |      
+     |      Returns the number of sprites contained in the group.
+     |  
+     |  __nonzero__(self)
+     |  
+     |  __repr__(self)
+     |  
+     |  add(self, *sprites)
+     |      add(sprite, list, or group, ...)
+     |      add sprite to group
+     |      
+     |      Add a sprite or sequence of sprites to a group.
+     |  
+     |  clear(self, surface, bgd)
+     |      clear(surface, bgd)
+     |      erase the previous position of all sprites
+     |      
+     |      Clears the area of all drawn sprites. the bgd
+     |      argument should be Surface which is the same
+     |      dimensions as the surface. The bgd can also be
+     |      a function which gets called with the passed
+     |      surface and the area to be cleared.
+     |  
+     |  copy(self)
+     |      copy()
+     |      copy a group with all the same sprites
+     |      
+     |      Returns a copy of the group that is the same class
+     |      type, and has the same sprites in it.
+     |  
+     |  draw(self, surface)
+     |      draw(surface)
+     |      draw all sprites onto the surface
+     |      
+     |      Draws all the sprites onto the given surface.
+     |  
+     |  empty(self)
+     |      empty()
+     |      remove all sprites
+     |      
+     |      Removes all the sprites from the group.
+     |  
+     |  has(self, *sprites)
+     |      has(sprite or group, ...)
+     |      ask if group has a sprite or sprites
+     |      
+     |      Returns true if the given sprite or sprites are
+     |      contained in the group. You can also use 'sprite in group'
+     |      or 'subgroup in group'.
+     |  
+     |  has_internal(self, sprite)
+     |  
+     |  remove(self, *sprites)
+     |      remove(sprite, list, or group, ...)
+     |      remove sprite from group
+     |      
+     |      Remove a sprite or sequence of sprites from a group.
+     |  
+     |  sprites(self)
+     |      sprites()
+     |      get a list of sprites in the group
+     |      
+     |      Returns an object that can be looped over with a 'for' loop.
+     |      (For now it is always a list, but newer version of Python
+     |      could return different iterators.) You can also iterate directly
+     |      over the sprite group.
+     |  
+     |  update(self, *args)
+     |      update(*args)
+     |      call update for all member sprites
+     |      
+     |      calls the update method for all sprites in the group.
+     |      Passes all arguments on to the Sprite update function.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pygame.sprite.AbstractGroup:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+
+AUTHOR
+    Matthew Severance
+
+

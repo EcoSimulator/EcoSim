@@ -1,0 +1,21 @@
+Help on package Sprites:
+
+NAME
+    Sprites
+
+FILE
+    EnvironmentSimulationPython/Sprites/__init__.py
+
+DESCRIPTION
+    All the sprites and their related functions
+    All sprites in this module are subclasses of Sprite.py defined here
+
+PACKAGE CONTENTS
+    BeeSprite
+    DeerSprite
+    PlantSprite
+    Sprite
+    SpriteProduction
+    WolfSprite
+
+

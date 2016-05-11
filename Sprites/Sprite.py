@@ -1,6 +1,3 @@
-# Matthew Severance, 4/18/2016
-
-
 import math
 import random
 import sys
@@ -8,10 +5,22 @@ import pygame
 import Utils
 from Menus import Pause
 
+__author__ = "Matthew Severance"
+__date__ = "4/18/2016"
+
 
 class Sprite(pygame.sprite.DirtySprite):
-
+    """
+    Default sprite class
+    All (move-able) sprites should inherit from this
+    """
     def __init__(self, image, rect, type):
+        """
+        Initializes a blank sprite
+        Should not be called on its own
+            only as super in another __init__
+        Sets health = 100 (max-health, once implemented)
+        """
         pygame.sprite.Sprite.__init__(self)
         self.speed = 10
         self.image = image
@@ -30,6 +39,10 @@ class Sprite(pygame.sprite.DirtySprite):
         self.screen.blit(self.image, self.rect)
 
     def update(self):
+        """
+        Default sprite update
+        Simply makes a random move, staying withing the screen
+        """
         direction = math.radians(random.randint(0, 360))
         x_offset = self.speed * math.sin(direction)
         y_offset = self.speed * math.cos(direction)
@@ -47,6 +60,11 @@ class Sprite(pygame.sprite.DirtySprite):
         # good for wolf catching deer probably
 
     def make_good_move(self, x_offset, y_offset):
+        """
+        Called after an attempt by a sprite to move off screen
+        Returns an appropriate move depending on what edge
+            the sprite is attempting to move off of
+        """
         buffer = 50     # 50 pixel buffer from edge
         if self.rect.left + x_offset <= self.screen.get_rect().left + buffer:
             if self.rect.top + y_offset <= self.screen.get_rect().top + buffer:
@@ -69,6 +87,9 @@ class Sprite(pygame.sprite.DirtySprite):
             return math.radians(random.randint(5, 175))         # just bottom
 
     def move_is_within_surface(self, x_offset, y_offset):
+        """
+        Checks whether a sprite's move keeps it within the bounds of the screen
+        """
         buffer = 50     # 50 pixel buffer from edge
         if self.rect.left + x_offset <= self.screen.get_rect().left + buffer:
             return False
@@ -81,6 +102,12 @@ class Sprite(pygame.sprite.DirtySprite):
         return True
 
     def hunt(self, group):
+        """
+        Hunt function for sprites
+        Distinguishes between different species and their appropriate prey
+        Sprite travels in a straight line towards prey
+            Until it catches it or the prey escapes
+        """
         sprite_list = pygame.sprite.spritecollide(self, group, False, pygame.sprite.collide_circle)
         if len(sprite_list) > 0:
             sprite = Utils.find_closest_sprite(self, sprite_list)
@@ -127,7 +154,10 @@ class Sprite(pygame.sprite.DirtySprite):
             return False
 
     def button_ops(self):
-       # Mouse.mouse_monitor(Global.buttons_global)
+        """
+        Checks for pause menu call with ESC key
+        """
+        # Mouse.mouse_monitor(Global.buttons_global)
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:

@@ -1,18 +1,24 @@
-# Matthew Severance, 4/18/2016
-
 import math
 import random
-
 import pygame
-
 import Global
 import Utils
 from Sprite import Sprite
 
 
-class DeerSprite(Sprite):
+__author__ = "Jasmine Oliveira"
 
+
+class DeerSprite(Sprite):
+    """
+    Deer sprite class
+    """
     def __init__(self, image_rect):
+        """
+        Calls Spite.init as super
+        Sets speed, radius and runningAway (a boolean)
+        Adds to global deer_group
+        """
         Sprite.__init__(self, pygame.image.load("Resources/sprites/deer.png"), image_rect, "deer")
         self.speed = 24
         self.radius = 100
@@ -20,6 +26,10 @@ class DeerSprite(Sprite):
         Global.deer_group.add_internal(self)
 
     def update(self):
+        """
+        Updates the deer sprite
+        Either dies, runs away from a wolf, calls Sprite.hunt for plants or calls Sprite.update
+        """
         Sprite.button_ops(self)
         if self.health_monitor():
             return
@@ -30,6 +40,11 @@ class DeerSprite(Sprite):
                 Sprite.update(self)
 
     def flee(self):
+        """
+        Checks for wolves in the area of the deer
+        If it recognizes a wolf it will flee
+        Otherwise it freezes until it finds the wolf or get eaten
+        """
         sprite_list = pygame.sprite.spritecollide(self, Global.wolf_group, False, pygame.sprite.collide_circle)
         if len(sprite_list) > 0:
             wolf = Utils.find_closest_sprite(self, sprite_list)
@@ -57,18 +72,8 @@ class DeerSprite(Sprite):
                     self.screen.blit(dirtyrect, self.rect)
                     self.rect.move_ip(move_to_x, move_to_y)
                     self.blit()
-                    # direction = self.make_good_move(x_offset, y_offset)
-                    # x_offset = self.speed * math.cos(direction)
-                    # y_offset = self.speed * math.sin(direction)
                 else:
                     Sprite.update(self)
-                    # direction = self.make_good_move_flee(move_to_x, move_to_y, wolf)
-                    # move_to_x = self.speed * math.sin(direction)
-                    # move_to_y = self.speed * math.cos(direction)
-                    # dirtyrect = Utils.clean_screen.subsurface(self.rect).copy()
-                    # self.screen.blit(dirtyrect, self.rect)
-                    # self.rect.move_ip(move_to_x, move_to_y)
-                    # self.blit()
             pygame.display.flip()
             pygame.time.delay(100)
             return True
@@ -76,6 +81,10 @@ class DeerSprite(Sprite):
             return False
 
     def health_monitor(self):
+        """
+        Decreases the sprite's health each update
+        Returns true and kills the sprite if health <= 0
+        """
         self.health -= 1
         if self.health <= 0:
             dirtyrect = Utils.clean_screen.subsurface(self.rect).copy()

@@ -1,8 +1,9 @@
-# Matthew Severance, 4/18/2016
-
-
+"""
+A bunch of random odds and ends that don't have a home elsewhere
+"""
 import pygame
 import math
+
 
 map = "Resources/terrain/map2.png"
 

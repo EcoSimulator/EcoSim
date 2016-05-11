@@ -1,0 +1,17 @@
+Help on module Global:
+
+NAME
+    Global
+
+FILE
+    EnvironmentSimulationPython/Global.py
+
+DATA
+    bee_group = <BeeGroup(0 sprites)>
+    buttons_global = []
+    deer_group = <DeerGroup(0 sprites)>
+    plant_group = <PlantGroup(0 sprites)>
+    return_to_menu = False
+    wolf_group = <WolfGroup(0 sprites)>
+
+

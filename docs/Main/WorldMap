@@ -1,0 +1,23 @@
+Help on module WorldMap:
+
+NAME
+    WorldMap - Main class that runs the world map
+
+FILE
+    EnvironmentSimulationPython/WorldMap.py
+
+FUNCTIONS
+    display_map()
+        Displays the main map
+        Contains the game loop that:
+            Calls all sprite group updates
+            Reproduces all sprites
+            Display populations
+            Allows user to place sprites
+            Calls the pause menu
+    
+    empty_all_groups()
+        Empties all sprites from all groups
+
+AUTHOR
+    Matthew Severance

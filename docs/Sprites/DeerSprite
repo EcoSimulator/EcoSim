@@ -1,0 +1,122 @@
+Help on module Sprites.DeerSprite in Sprites:
+
+NAME
+    Sprites.DeerSprite
+
+FILE
+    EnvironmentSimulationPython/Sprites/DeerSprite.py
+
+CLASSES
+    Sprites.Sprite.Sprite(pygame.sprite.DirtySprite)
+        DeerSprite
+    
+    class DeerSprite(Sprites.Sprite.Sprite)
+     |  Deer sprite class
+     |  
+     |  Method resolution order:
+     |      DeerSprite
+     |      Sprites.Sprite.Sprite
+     |      pygame.sprite.DirtySprite
+     |      pygame.sprite.Sprite
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, image_rect)
+     |      Calls Spite.init as super
+     |      Sets speed, radius and runningAway (a boolean)
+     |      Adds to global deer_group
+     |  
+     |  flee(self)
+     |      Checks for wolves in the area of the deer
+     |      If it recognizes a wolf it will flee
+     |      Otherwise it freezes until it finds the wolf or get eaten
+     |  
+     |  health_monitor(self)
+     |      Decreases the sprite's health each update
+     |      Returns true and kills the sprite if health <= 0
+     |  
+     |  update(self)
+     |      Updates the deer sprite
+     |      Either dies, runs away from a wolf, calls Sprite.hunt for plants or calls Sprite.update
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Sprites.Sprite.Sprite:
+     |  
+     |  add_internal(self, group)
+     |  
+     |  blit(self)
+     |  
+     |  button_ops(self)
+     |  
+     |  hunt(self, group)
+     |  
+     |  make_good_move(self, x_offset, y_offset)
+     |  
+     |  move_is_within_surface(self, x_offset, y_offset)
+     |  
+     |  remove_internal(self, group)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pygame.sprite.DirtySprite:
+     |  
+     |  __repr__(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pygame.sprite.DirtySprite:
+     |  
+     |  visible
+     |      you can make this sprite disappear without removing it from the group,
+     |      values 0 for invisible and 1 for visible
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pygame.sprite.Sprite:
+     |  
+     |  add(self, *groups)
+     |      add the sprite to groups
+     |      Sprite.add(*groups): return None
+     |      
+     |      Any number of Group instances can be passed as arguments. The 
+     |      Sprite will be added to the Groups it is not already a member of.
+     |  
+     |  alive(self)
+     |      does the sprite belong to any groups
+     |      Sprite.alive(): return bool
+     |      
+     |      Returns True when the Sprite belongs to one or more Groups.
+     |  
+     |  groups(self)
+     |      list of Groups that contain this Sprite
+     |      Sprite.groups(): return group_list
+     |      
+     |      Return a list of all the Groups that contain this Sprite.
+     |  
+     |  kill(self)
+     |      remove the Sprite from all Groups
+     |      Sprite.kill(): return None
+     |      
+     |      The Sprite is removed from all the Groups that contain it. This won't
+     |      change anything about the state of the Sprite. It is possible to continue
+     |      to use the Sprite after this method has been called, including adding it
+     |      to Groups.
+     |  
+     |  remove(self, *groups)
+     |      remove the sprite from groups
+     |      Sprite.remove(*groups): return None
+     |      
+     |      Any number of Group instances can be passed as arguments. The Sprite will
+     |      be removed from the Groups it is currently a member of.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pygame.sprite.Sprite:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+AUTHOR
+    Jasmine Oliveira
+
+

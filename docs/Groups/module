@@ -1,0 +1,22 @@
+Help on package SpriteGroups:
+
+NAME
+    SpriteGroups
+
+FILE
+    EnvironmentSimulationPython/SpriteGroups/__init__.py
+
+DESCRIPTION
+    Contains all the groups for the various sprites. Each kind of sprite has its own group.
+    Used to update all sprites in the group, and get the populations of each sprite type.
+
+PACKAGE CONTENTS
+    BeeGroup
+    DeerGroup
+    PlantGroup
+    WolfGroup
+
+AUTHOR
+    Matthew Severance
+
+
