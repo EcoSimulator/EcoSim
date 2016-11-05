@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from Menus import PopMonitor
 import Utils
 
 __author__ = "Matthew Severance"
@@ -31,11 +32,15 @@ def make_buttons():
     bee_button = pygame.image.load("Resources/buttons/beesnormal.png")
     bee_button_rect = Rect((0, plant_button_rect.bottom), (40, 39))
 
+    test_monitor = PopMonitor.make_monitor("deer")
+    test_monitor_rect = Rect((0, bee_button_rect.bottom), (40, 39))
+
     # add buttons to the list
     buttons.append((deer_button, deer_button_rect))
     buttons.append((wolf_button, wolf_button_rect))
     buttons.append((plant_button, plant_button_rect))
     buttons.append((bee_button, bee_button_rect))
+    buttons.append((test_monitor, test_monitor_rect))
 
     # blit- puts stuff on the screen
     # blit terrain and buttons
