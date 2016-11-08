@@ -46,22 +46,26 @@ def display_population_count(sprite_group, button_index):
     Displayed near its button (given in buttons_global)
     """
     # initialize font; must be called after 'pygame.init()' to avoid 'Font not Initialized' error
-    font = pygame.font.SysFont("monospace", 28, True, False)
+    font = pygame.font.SysFont("monospace", 22, True, False)
 
     # get count of group
     sprite_count = str(len(sprite_group))
 
     # generate coordinates and render text
-    button_x = Global.buttons_global[button_index][1].right + 10
-    button_y = Global.buttons_global[button_index][1].centery - 12
-    label = font.render(sprite_count, 1, (255, 255, 255))
+    num_x = 80
+    num_y = (button_index * 36) + 15
+    label = font.render(sprite_count, 1, (0, 0, 0))
 
     # reset view
-    dirty_rect = Utils.clean_screen.subsurface(Rect((button_x, button_y), (40, 39))).copy()
-    Utils.screen.blit(dirty_rect, (button_x, button_y))
+    #dirty_rect = Utils.clean_screen.subsurface(Rect((num_x, num_y), (40, 39))).copy()
+    #Utils.screen.blit(dirty_rect, (num_x, num_y))
 
+    # draw a white rectangle
+    white = pygame.image.load("Resources/sidebar/whiterect.png")
+    white_rect = Rect((num_x-30, num_y+3), (60, 21))
+    Utils.screen.blit(white, white_rect)
     # blit new text
-    Utils.screen.blit(label, (button_x, button_y))
+    Utils.screen.blit(label, (num_x, num_y))
     pygame.display.flip()
 
 

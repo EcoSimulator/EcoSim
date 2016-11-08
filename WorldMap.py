@@ -8,7 +8,7 @@ from pygame.locals import *
 
 import Global
 import Utils
-from Menus import Mouse, Pause, InGameMenu
+from Menus import Mouse, Pause, InGameMenu, PopMonitor
 from SpriteGroups.BeeGroup import BeeGroup
 from SpriteGroups.DeerGroup import DeerGroup
 from SpriteGroups.PlantGroup import PlantGroup
@@ -43,7 +43,15 @@ def display_map():
     Utils.screen.blit(terrain, terrain_rect)
 
     buttons = InGameMenu.make_buttons()   # the list of buttons, its a list of tuples [(image, image_rectangle)]
+    #buttons = []
     Global.buttons_global = buttons
+
+    # all_species = {"wolf", "deer", "bees", "plant"}
+    # index = 0
+    # for item in all_species:
+    #     monitor = PopMonitor.make_monitor(index, item)
+    #     buttons.append(monitor)
+    #     index += 1
 
     # loop to listen on the mouse, delayed cuz otherwise stuff flickers
     count = 0
@@ -53,7 +61,7 @@ def display_map():
             empty_all_groups()
             return
         
-        Mouse.mouse_monitor(buttons)
+        #Mouse.mouse_monitor(buttons)
         SpriteProduction.display_population_count(Global.deer_group, 0)
         SpriteProduction.display_population_count(Global.wolf_group, 1)
         SpriteProduction.display_population_count(Global.plant_group, 2)

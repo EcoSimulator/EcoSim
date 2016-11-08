@@ -1,9 +1,9 @@
 import pygame
 from pygame.locals import *
-from Menus import PopMonitor
+from Menus import PopMonitor, Sidebar
 import Utils
 
-__author__ = "Matthew Severance"
+__author__ = "Matthew Severance, Justin Tribuna"
 
 
 def make_buttons():
@@ -15,38 +15,21 @@ def make_buttons():
     3: Bee
     :return: the list of buttons
     """
+
+    Sidebar.make_sidebar()
+
     buttons = []
 
-    # make a deer button, Rect creates the rectangle to draw the button in
-    deer_button = pygame.image.load("Resources/buttons/deernormal.png")
-    deer_button_rect = Rect((0, 0), (40, 39))
+    # we'll want the game to have a list of available species that we can get
+    all_species = {"wolf", "deer", "bees", "plant"}
+    index = 0
+    for item in all_species:
+        monitor = PopMonitor.make_monitor(index, item)
+        buttons.append(monitor)
+        index += 1
 
-    # make a wolf button, Rect creates the rectangle to draw the button in
-    wolf_button = pygame.image.load("Resources/buttons/wolfnormal.png")
-    wolf_button_rect = Rect((0, deer_button_rect.bottom), (40, 39))
-
-    # make a plant button, Rect creates the rectangle to draw the button in
-    plant_button = pygame.image.load("Resources/buttons/plantnormal.png")
-    plant_button_rect = Rect((0, wolf_button_rect.bottom), (40, 39))
-
-    bee_button = pygame.image.load("Resources/buttons/beesnormal.png")
-    bee_button_rect = Rect((0, plant_button_rect.bottom), (40, 39))
-
-    test_monitor = PopMonitor.make_monitor("deer")
-    test_monitor_rect = Rect((0, bee_button_rect.bottom), (40, 39))
-
-    # add buttons to the list
-    buttons.append((deer_button, deer_button_rect))
-    buttons.append((wolf_button, wolf_button_rect))
-    buttons.append((plant_button, plant_button_rect))
-    buttons.append((bee_button, bee_button_rect))
-    buttons.append((test_monitor, test_monitor_rect))
-
-    # blit- puts stuff on the screen
-    # blit terrain and buttons
+    # population monitors are blitted in PopMonitor
     # flip just refreshes screen to display blits since last flip
-    for button in buttons:
-        Utils.screen.blit(button[0], button[1])
     pygame.display.flip()
 
     return buttons
