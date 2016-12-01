@@ -1,8 +1,8 @@
 # -----------------------------------------------------------------------------
 # Author: Jasmine Oliveira
-# Date:   10/2016
+# Date:   11/2016
 # -----------------------------------------------------------------------------
-# virtual_calendar.py
+# pyclock.py
 # -----------------------------------------------------------------------------
 # Module designed to test game_clock, and multithreading with a pygame display.
 # Does test by creating, and running 3 clocks on a single screen.
@@ -31,15 +31,15 @@ clock_subsurface = surface.subsurface(r)
 
 
 ## Create 3 Game Clocks
-game_clock = GameClock(GRID_LOCK, screen, clock, 0, 0)
+game_clock = GameClock(GRID_LOCK, screen, (0, 0))
 t = Thread(target=game_clock.run)
 t.daemon = True
 
-game_clock2 = GameClock(GRID_LOCK, screen, clock, 0, 50)
+game_clock2 = GameClock(GRID_LOCK, screen, (0, 50))
 s = Thread(target=game_clock2.run)
 s.daemon = True
 
-game_clock3 = GameClock(GRID_LOCK, screen, clock, 0, 100)
+game_clock3 = GameClock(GRID_LOCK, screen, (0, 100))
 u = Thread(target=game_clock3.run)
 u.daemon = True
 
